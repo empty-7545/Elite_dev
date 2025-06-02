@@ -23,7 +23,7 @@ const SkillsPage: React.FC = () => {
       name: 'JavaScript/TypeScript',
       category: 'frontend',
       level: 95,
-      experience: '10 years',
+      experience: '1+ years',
       description: 'Expert in modern JavaScript and TypeScript development. Experience with ES6+, advanced TypeScript types, and optimization techniques.',
       icon: <Command />
     },
@@ -32,7 +32,7 @@ const SkillsPage: React.FC = () => {
       name: 'React & React Native',
       category: 'frontend',
       level: 92,
-      experience: '8 years',
+      experience: '1+ years',
       description: 'Advanced knowledge of React ecosystem including hooks, context, Redux, and performance optimization. Experience building cross-platform mobile apps.',
       icon: <Globe />
     },
@@ -41,55 +41,55 @@ const SkillsPage: React.FC = () => {
       name: 'Node.js',
       category: 'backend',
       level: 88,
-      experience: '7 years',
+      experience: '1+  years',
       description: 'Building scalable backend services, REST APIs, and microservices. Experience with Express, Fastify, and NestJS frameworks.',
       icon: <Server />
     },
-    {
-      id: 'py-1',
-      name: 'Python',
-      category: 'backend',
-      level: 85,
-      experience: '6 years',
-      description: 'Data processing, automation, and backend development. Experience with Django, Flask, and data science libraries.',
-      icon: <Command />
-    },
+    // {
+    //   id: 'py-1',
+    //   name: 'Python',
+    //   category: 'backend',
+    //   level: 85,
+    //   experience: '6 years',
+    //   description: 'Data processing, automation, and backend development. Experience with Django, Flask, and data science libraries.',
+    //   icon: <Command />
+    // },
     {
       id: 'db-1',
       name: 'SQL & NoSQL Databases',
       category: 'database',
       level: 90,
-      experience: '9 years',
+      experience: '1+ years',
       description: 'Database design, optimization, and management. Experience with PostgreSQL, MySQL, MongoDB, and Redis.',
       icon: <Database />
     },
-    {
-      id: 'devops-1',
-      name: 'DevOps & CI/CD',
-      category: 'devops',
-      level: 82,
-      experience: '5 years',
-      description: 'Building automated deployment pipelines, container orchestration, and infrastructure as code. Experience with Docker, Kubernetes, and AWS.',
-      icon: <Server />
-    },
-    {
-      id: 'sec-1',
-      name: 'Cybersecurity',
-      category: 'security',
-      level: 88,
-      experience: '7 years',
-      description: 'Application security, penetration testing, and secure coding practices. Experience with OWASP top 10, authentication systems, and encryption.',
-      icon: <Shield />
-    },
-    {
-      id: 'ai-1',
-      name: 'Machine Learning',
-      category: 'ai',
-      level: 78,
-      experience: '4 years',
-      description: 'Building ML models for classification, prediction, and natural language processing. Experience with TensorFlow, PyTorch, and scikit-learn.',
-      icon: <Bot />
-    },
+    // {
+    //   id: 'devops-1',
+    //   name: 'DevOps & CI/CD',
+    //   category: 'devops',
+    //   level: 82,
+    //   experience: '5 years',
+    //   description: 'Building automated deployment pipelines, container orchestration, and infrastructure as code. Experience with Docker, Kubernetes, and AWS.',
+    //   icon: <Server />
+    // },
+    // {
+    //   id: 'sec-1',
+    //   name: 'Cybersecurity',
+    //   category: 'security',
+    //   level: 88,
+    //   experience: '7 years',
+    //   description: 'Application security, penetration testing, and secure coding practices. Experience with OWASP top 10, authentication systems, and encryption.',
+    //   icon: <Shield />
+    // },
+    // {
+    //   id: 'ai-1',
+    //   name: 'Machine Learning',
+    //   category: 'ai',
+    //   level: 78,
+    //   experience: '4 years',
+    //   description: 'Building ML models for classification, prediction, and natural language processing. Experience with TensorFlow, PyTorch, and scikit-learn.',
+    //   icon: <Bot />
+    // },
   ];
 
   // Simulate loading skills

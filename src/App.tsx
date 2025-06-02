@@ -61,13 +61,13 @@ function App() {
         success: true, 
         output: `
 Available directories:
-drwxr-xr-x  2 user user  4096 Jan 1 2025 home
-drwxr-xr-x  2 user user  4096 Jan 1 2025 about
-drwxr-xr-x  2 user user  4096 Jan 1 2025 skills
-drwxr-xr-x  2 user user  4096 Jan 1 2025 projects
-drwxr-xr-x  2 user user  4096 Jan 1 2025 education
-drwxr-xr-x  2 user user  4096 Jan 1 2025 testimonials
-drwxr-xr-x  2 user user  4096 Jan 1 2025 contact
+drwxr-xr-x  2 user user  4096 Aug 11 2004 home
+drwxr-xr-x  2 user user  4096 Aug 11 2004 about
+drwxr-xr-x  2 user user  4096 Aug 11 2004 skills
+drwxr-xr-x  2 user user  4096 Aug 11 2004 projects
+drwxr-xr-x  2 user user  4096 Aug 11 2004 education
+drwxr-xr-x  2 user user  4096 Aug 11 2004 testimonials
+drwxr-xr-x  2 user user  4096 Aug 11 2004 contact
 `
       };
     } 
@@ -86,7 +86,7 @@ drwxr-xr-x  2 user user  4096 Jan 1 2025 contact
     else if (cmd === 'whoami') {
       return { 
         success: true, 
-        output: 'Visitor@HackerPortfolio ~ $ User privileges detected' 
+        output: 'Karthigaiselvam ~ $ User privileges detected' 
       };
     } 
     

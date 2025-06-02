@@ -19,17 +19,17 @@ const encryptedData = {
 
 // Decrypted developer information
 const decryptedData = {
-  name: "Alex Johnson",
+  name: "Karthigaiselvam T",
   title: "Senior Software Developer",
-  location: "Seattle, WA",
+  location: "Dindigul, Tamil Nadu, India",
   bio: `
-    I'm a passionate developer with 10+ years of experience building web applications and secure systems.
+    I'm a passionate developer with 1+ years of experience building web applications and secure systems.
     My background includes working with startups and enterprise-level clients across multiple industries.
     I'm committed to creating code that solves real problems and is both maintainable and scalable.
     My work has been featured in several major tech publications and developer communities.
   `,
-  experience: "10+ years",
-  specialization: "Full Stack, Security, DevOps, React"
+  experience: "1+ years",
+  specialization: "Full Stack, Security, React Native"
 };
 
 const AboutPage: React.FC = () => {
@@ -194,21 +194,21 @@ const AboutPage: React.FC = () => {
               <div className="border-l-2 border-green-500 pl-4">
                 <div className="flex justify-between mb-1">
                   <h4 className="font-bold">Senior Developer</h4>
-                  <span className="text-sm text-gray-400">2020 - Present</span>
+                  <span className="text-sm text-gray-400">2025 - Present</span>
                 </div>
-                <p className="text-sm text-green-400 mb-2">TechSolutions Inc.</p>
+                <p className="text-sm text-green-400 mb-2">Virtual Technology</p>
                 <p className="text-gray-300 text-sm">
-                  Led development of secure applications for enterprise clients.
-                  Managed team of 5 developers and implemented security best practices.
+                  Lead development of secure applications for enterprise clients.
+                  Managed team of 2 developers and implemented security best practices.
                 </p>
               </div>
               
               <div className="border-l-2 border-green-500 pl-4">
                 <div className="flex justify-between mb-1">
                   <h4 className="font-bold">Full Stack Developer</h4>
-                  <span className="text-sm text-gray-400">2017 - 2020</span>
+                  <span className="text-sm text-gray-400">2024 - 2025</span>
                 </div>
-                <p className="text-sm text-green-400 mb-2">InnovateCorp</p>
+                <p className="text-sm text-green-400 mb-2">Virtual Technology</p>
                 <p className="text-gray-300 text-sm">
                   Built scalable web applications using React and Node.js.
                   Implemented security protocols and authentication systems.
@@ -218,9 +218,9 @@ const AboutPage: React.FC = () => {
               <div className="border-l-2 border-green-500 pl-4">
                 <div className="flex justify-between mb-1">
                   <h4 className="font-bold">Frontend Developer</h4>
-                  <span className="text-sm text-gray-400">2015 - 2017</span>
+                  <span className="text-sm text-gray-400"> 2024 </span>
                 </div>
-                <p className="text-sm text-green-400 mb-2">WebSphere Solutions</p>
+                <p className="text-sm text-green-400 mb-2">Virtual Technology</p>
                 <p className="text-gray-300 text-sm">
                   Developed responsive web interfaces with focus on UX/UI.
                   Collaborated with designers to implement visually appealing designs.
@@ -238,20 +238,20 @@ const AboutPage: React.FC = () => {
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between mb-1">
-                  <h4 className="font-bold">Master of Science in Computer Science</h4>
-                  <span className="text-sm text-gray-400">2015</span>
+                  <h4 className="font-bold">Bachelor of Technology in Information Technology</h4>
+                  <span className="text-sm text-gray-400">2022 - 2025</span>
                 </div>
-                <p className="text-green-400">University of Technology</p>
-                <p className="text-sm text-gray-300">Specialization in Cybersecurity</p>
+                <p className="text-green-400">Madurai Kamarajar University</p>
+                <p className="text-sm text-gray-300">Parvathys Arts and Science College</p>
               </div>
               
               <div>
                 <div className="flex justify-between mb-1">
-                  <h4 className="font-bold">Bachelor of Science in Software Engineering</h4>
-                  <span className="text-sm text-gray-400">2013</span>
+                  <h4 className="font-bold">Master of Computer Application</h4>
+                  <span className="text-sm text-gray-400">2025 - 2027</span>
                 </div>
-                <p className="text-green-400">State University</p>
-                <p className="text-sm text-gray-300">Minor in Mathematics</p>
+                <p className="text-green-400">Anna University</p>
+                <p className="text-sm text-gray-300">RVS Engineering College</p>
               </div>
             </div>
           </div>

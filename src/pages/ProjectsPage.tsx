@@ -27,8 +27,8 @@ const ProjectsPage: React.FC = () => {
       description: 'Advanced authentication system with multi-factor auth, biometric verification, and brute force protection. Built with Node.js, React, and MongoDB.',
       tags: ['security', 'fullstack', 'node', 'react'],
       image: 'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      demoUrl: 'https://example.com/demo',
-      repoUrl: 'https://github.com/example/secure-auth',
+      // demoUrl: 'https://example.com/demo',
+      // repoUrl: 'https://github.com/example/secure-auth',
       featured: true,
       encrypted: true
     },
@@ -38,8 +38,8 @@ const ProjectsPage: React.FC = () => {
       description: 'Real-time data visualization dashboard for monitoring system metrics. Features customizable widgets, alerts, and historical data analysis.',
       tags: ['frontend', 'data', 'react', 'charts'],
       image: 'https://images.pexels.com/photos/7947664/pexels-photo-7947664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      demoUrl: 'https://example.com/dataviz',
-      repoUrl: 'https://github.com/example/dataviz',
+      // demoUrl: 'https://example.com/dataviz',
+      // repoUrl: 'https://github.com/example/dataviz',
       featured: true,
       encrypted: false
     },
@@ -49,8 +49,8 @@ const ProjectsPage: React.FC = () => {
       description: 'Microservice API gateway handling routing, rate limiting, caching, and authentication for distributed systems.',
       tags: ['backend', 'microservices', 'node', 'api'],
       image: 'https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      demoUrl: undefined,
-      repoUrl: 'https://github.com/example/api-gateway',
+      // demoUrl: undefined,
+      // repoUrl: 'https://github.com/example/api-gateway',
       featured: false,
       encrypted: true
     },
@@ -60,8 +60,8 @@ const ProjectsPage: React.FC = () => {
       description: 'Interactive tool for visualizing neural network architectures and training processes in real-time.',
       tags: ['frontend', 'ai', 'python', 'react'],
       image: 'https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      demoUrl: 'https://example.com/nn-viz',
-      repoUrl: 'https://github.com/example/nn-viz',
+      // demoUrl: 'https://example.com/nn-viz',
+      // repoUrl: 'https://github.com/example/nn-viz',
       featured: false,
       encrypted: false
     },

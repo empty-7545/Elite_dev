@@ -48,10 +48,10 @@ const HomePage: React.FC = () => {
         </div>
       ) : (
         <div className="text-center">
-          <h1 className="text-4xl mb-8 glitch">Welcome to My Hacker Portfolio</h1>
+          <h1 className="text-4xl mb-8 glitch">You Have Been Notified</h1>
           
           <div className="mb-12 text-xl">
-            <p className="typing-animation">Elite Developer | Security Specialist | Creative Coder</p>
+            <p className="typing-animation">Elite Developer | Creative Coder</p>
           </div>
           
           <div className="bg-black bg-opacity-30 p-6 rounded-lg border border-green-500 shadow-lg mb-12">

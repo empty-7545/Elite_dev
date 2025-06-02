@@ -28,30 +28,30 @@ const EducationPage: React.FC = () => {
             <div className="bg-black bg-opacity-30 p-6 rounded-lg border border-green-500 shadow-lg">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-xl font-bold">Master of Science in Computer Science</h3>
-                  <p className="text-green-400">University of Technology</p>
+                  <h3 className="text-xl font-bold">Bachelor of Technology in Information Technology</h3>
+                  <p className="text-green-400">Madurai Kamarajar University</p>
                 </div>
                 <div className="text-right">
-                  <span className="bg-green-900 bg-opacity-30 px-2 py-1 rounded text-sm">2013 - 2015</span>
+                  <span className="bg-green-900 bg-opacity-30 px-2 py-1 rounded text-sm">2022 - 2025</span>
                 </div>
               </div>
               
               <div className="mb-4">
                 <h4 className="font-bold mb-2">Specialization</h4>
-                <p className="text-gray-300">Cybersecurity and Advanced Algorithms</p>
+                <p className="text-gray-300">Programming Basic</p>
               </div>
               
               <div className="mb-4">
                 <h4 className="font-bold mb-2">Key Courses</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <div className="bg-black bg-opacity-30 px-3 py-2 rounded text-sm">Advanced Cryptography</div>
-                  <div className="bg-black bg-opacity-30 px-3 py-2 rounded text-sm">Machine Learning</div>
-                  <div className="bg-black bg-opacity-30 px-3 py-2 rounded text-sm">Network Security</div>
+                  {/* <div className="bg-black bg-opacity-30 px-3 py-2 rounded text-sm">Advanced Cryptography</div> */}
+                  {/* <div className="bg-black bg-opacity-30 px-3 py-2 rounded text-sm">Machine Learning</div> */}
+                  <div className="bg-black bg-opacity-30 px-3 py-2 rounded text-sm">Network Basics</div>
                   <div className="bg-black bg-opacity-30 px-3 py-2 rounded text-sm">Distributed Systems</div>
                 </div>
               </div>
               
-              <div>
+              {/* <div>
                 <h4 className="font-bold mb-2">Thesis</h4>
                 <p className="text-gray-300">
                   "Novel Approaches to Intrusion Detection Using Hybrid Neural Networks"
@@ -59,7 +59,8 @@ const EducationPage: React.FC = () => {
                 <p className="text-sm text-gray-400 mt-1">
                   Research on improving security systems using artificial intelligence
                 </p>
-              </div>
+              </div> */}
+
             </div>
           </div>
           
@@ -72,11 +73,11 @@ const EducationPage: React.FC = () => {
             <div className="bg-black bg-opacity-30 p-6 rounded-lg border border-green-500 shadow-lg">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-xl font-bold">Bachelor of Science in Software Engineering</h3>
-                  <p className="text-green-400">State University</p>
+                  <h3 className="text-xl font-bold">Master of Computer Application</h3>
+                  <p className="text-green-400">Anna University</p>
                 </div>
                 <div className="text-right">
-                  <span className="bg-green-900 bg-opacity-30 px-2 py-1 rounded text-sm">2009 - 2013</span>
+                  <span className="bg-green-900 bg-opacity-30 px-2 py-1 rounded text-sm">2025 - 2027</span>
                 </div>
               </div>
               
@@ -95,7 +96,7 @@ const EducationPage: React.FC = () => {
                 </div>
               </div>
               
-              <div>
+              {/* <div>
                 <h4 className="font-bold mb-2">Final Project</h4>
                 <p className="text-gray-300">
                   "Secure Web Application Framework with Real-time Threat Detection"
@@ -103,7 +104,7 @@ const EducationPage: React.FC = () => {
                 <p className="text-sm text-gray-400 mt-1">
                   Built a web framework with integrated security features
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
           
@@ -116,21 +117,21 @@ const EducationPage: React.FC = () => {
             <div className="bg-black bg-opacity-30 p-6 rounded-lg border border-green-500 shadow-lg">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-xl font-bold">High School Diploma</h3>
-                  <p className="text-green-400">Tech Preparatory Academy</p>
+                  <h3 className="text-xl font-bold">HSLC</h3>
+                  <p className="text-green-400">Thambithotam Higher Secondary School , Ghandhigram</p>
                 </div>
                 <div className="text-right">
-                  <span className="bg-green-900 bg-opacity-30 px-2 py-1 rounded text-sm">2005 - 2009</span>
+                  <span className="bg-green-900 bg-opacity-30 px-2 py-1 rounded text-sm">2020 - 2022</span>
                 </div>
               </div>
               
               <div>
                 <h4 className="font-bold mb-2">Focus</h4>
                 <p className="text-gray-300">
-                  Advanced Mathematics and Computer Science
+                  Biology with Maths
                 </p>
                 <p className="text-sm text-gray-400 mt-1">
-                  Started programming at age 14 and won regional coding competitions
+                  Started Mathamatics at age 17 and won regional Maths competitions
                 </p>
               </div>
             </div>

@@ -60,7 +60,7 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
       command: '',
       result: {
         success: true,
-        output: `🚀 MODERN TERMINAL v3.0
+        output: `🚀 Navigator v3.0
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ✨ Welcome to the Interactive Portfolio Terminal!
@@ -303,7 +303,7 @@ Ready to explore? Type a command below! 👇`,
         >
           <div className="flex items-center space-x-3">
             <div className="w-4 h-4 bg-green-400 rounded-sm"></div>
-            <span className="text-white font-semibold">Modern Terminal</span>
+            <span className="text-white font-semibold">Navigator</span>
             <div className="flex space-x-1">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse delay-100"></div>

@@ -217,7 +217,7 @@ const ContactPage: React.FC = () => {
                 <div className="flex items-center">
                   <Mail size={16} className="mr-2" />
                   <a href="mailto:contact@hackerportfolio.com" className="hover:text-green-400">
-                    contact@hackerportfolio.com
+                    Karthigaiselvam01@gmail.com
                   </a>
                 </div>
               </div>
@@ -226,7 +226,7 @@ const ContactPage: React.FC = () => {
                 <div className="text-sm text-gray-400 mb-1">Location</div>
                 <div className="flex items-center">
                   <Globe size={16} className="mr-2" />
-                  <span>Seattle, WA, USA</span>
+                  <span>Dindigul, Tamil Nadu, India</span>
                 </div>
               </div>
               
