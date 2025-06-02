@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+}
+
+:root {
+  --terminal-bg: rgba(16, 16, 20, 0.95);
+  --terminal-text: #e0e0e0;
+  --terminal-green: #00ff41;
+  --terminal-blue: #0088ff;
+  --terminal-cyan: #00ffe1;
+  --terminal-red: #ff2b2b;
+  --terminal-yellow: #ffbb00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #121212;
+  color: var(--terminal-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-bottom: 60px; /* Add padding for terminal bar */
+}
+
+.matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.terminal-window {
+  background-color: var(--terminal-bg);
+  border-top: 1px solid rgba(0, 255, 65, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.terminal-title {
+  flex-grow: 1;
+  text-align: center;
+  color: var(--terminal-green);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.terminal-body {
+  padding: 16px;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--terminal-green) rgba(0, 0, 0, 0.2);
+}
+
+.terminal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background-color: var(--terminal-green);
+  border-radius: 3px;
+}
+
+.terminal-input-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.terminal-prompt {
+  color: var(--terminal-green);
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.terminal-input {
+  flex-grow: 1;
+  background-color: transparent;
+  border: none;
+  color: var(--terminal-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  outline: none;
+  caret-color: var(--terminal-green);
+}
+
+.terminal-output {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-output .command {
+  color: var(--terminal-green);
+}
+
+.terminal-output .path {
+  color: var(--terminal-blue);
+}
+
+.terminal-output .error {
+  color: var(--terminal-red);
+}
+
+.terminal-output .warning {
+  color: var(--terminal-yellow);
+}
+
+.terminal-output .info {
+  color: var(--terminal-cyan);
+}
+
+.terminal-preview {
+  font-size: 14px;
+  color: var(--terminal-text);
+}
+
+.encrypted-text {
+  display: inline-block;
+  font-family: monospace;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  padding: 0 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.decrypting-text {
+  position: relative;
+}
+
+.decrypting-text::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(0, 255, 65, 0.5), 
+    transparent
+  );
+  animation: decrypt-scan 1.5s ease-in-out;
+}
+
+@keyframes decrypt-scan {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.typing-animation::after {
+  content: '|';
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.scanline {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0)
+  );
+  opacity: 0.15;
+  pointer-events: none;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.glitch {
+  position: relative;
+  animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .terminal-window {
+    height: 100%;
+  }
+  
+  .terminal-body {
+    padding: 12px;
+  }
+  
+  .terminal-input {
+    font-size: 13px;
+  }
+}
