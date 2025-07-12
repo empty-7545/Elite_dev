@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Code, ExternalLink, Github, Server, Shield, Globe } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Code, ExternalLink, Github, Server, Shield, Globe, DollarSign, TrendingUp, Calculator, Users, Building, Banknote } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -11,6 +11,11 @@ interface Project {
   repoUrl?: string;
   featured: boolean;
   encrypted: boolean;
+  difficulty: number;
+  experience: number;
+  company?: string;
+  loanType?: string;
+  achievement?: string;
 }
 
 const ProjectsPage: React.FC = () => {
@@ -18,83 +23,222 @@ const ProjectsPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [decryptedProjects, setDecryptedProjects] = useState<string[]>([]);
+  const [playerStats, setPlayerStats] = useState({
+    totalExperience: 0,
+    level: 1,
+    unlockedProjects: 0,
+    financeExpertise: 0
+  });
+  const [showAchievement, setShowAchievement] = useState<string>('');
+  const [particles, setParticles] = useState<Array<{id: number, x: number, y: number, vx: number, vy: number}>>([]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Example projects data
+  // Enhanced projects data with finance expertise
   const projectsData: Project[] = [
     {
       id: 'proj-1',
-      name: 'SecureAuth System',
-      description: 'Advanced authentication system with multi-factor auth, biometric verification, and brute force protection. Built with Node.js, React, and MongoDB.',
-      tags: ['security', 'fullstack', 'node', 'react'],
-      image: 'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      // demoUrl: 'https://example.com/demo',
-      // repoUrl: 'https://github.com/example/secure-auth',
+      name: 'Vetrivikas Finance System',
+      description: 'Complete loan management system for Vetrivikas Finance handling Business Loans, JLG (Joint Liability Group) loans, and GP (Group) loans. Features EMI diminishing method calculations, automated interest computations, and comprehensive borrower management.',
+      tags: ['finance', 'fullstack', 'loan-management', 'emi-calculation'],
+      image: 'https://images.pexels.com/photos/3943716/pexels-photo-3943716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: true,
-      encrypted: true
+      encrypted: true,
+      difficulty: 5,
+      experience: 1200,
+      company: 'Vetrivikas Finance',
+      loanType: 'Business Loans, JLG, GP Loans',
+      achievement: 'Finance System Architect'
     },
     {
       id: 'proj-2',
-      name: 'DataViz Dashboard',
-      description: 'Real-time data visualization dashboard for monitoring system metrics. Features customizable widgets, alerts, and historical data analysis.',
-      tags: ['frontend', 'data', 'react', 'charts'],
-      image: 'https://images.pexels.com/photos/7947664/pexels-photo-7947664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      // demoUrl: 'https://example.com/dataviz',
-      // repoUrl: 'https://github.com/example/dataviz',
+      name: 'Jothiinga Finance API Suite',
+      description: 'RESTful API ecosystem for Jothiinga Finance with endpoints for loan applications, EMI calculations using diminishing method, borrower verification, and real-time payment tracking. Built with Node.js and integrated with banking systems.',
+      tags: ['api-development', 'finance', 'backend', 'node'],
+      image: 'https://images.pexels.com/photos/5650026/pexels-photo-5650026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: true,
-      encrypted: false
+      encrypted: false,
+      difficulty: 4,
+      experience: 1000,
+      company: 'Jothiinga Finance',
+      loanType: 'API Integration',
+      achievement: 'API Master'
     },
     {
       id: 'proj-3',
-      name: 'API Gateway Service',
-      description: 'Microservice API gateway handling routing, rate limiting, caching, and authentication for distributed systems.',
-      tags: ['backend', 'microservices', 'node', 'api'],
-      image: 'https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      // demoUrl: undefined,
-      // repoUrl: 'https://github.com/example/api-gateway',
-      featured: false,
-      encrypted: true
+      name: 'Jothillinga Finance Dashboard',
+      description: 'Comprehensive finance dashboard for Jothillinga Finance featuring real-time loan portfolio monitoring, EMI tracking with diminishing method visualization, borrower analytics, and automated report generation.',
+      tags: ['finance', 'frontend', 'dashboard', 'data-visualization'],
+      image: 'https://images.pexels.com/photos/6694543/pexels-photo-6694543.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      featured: true,
+      encrypted: true,
+      difficulty: 4,
+      experience: 900,
+      company: 'Jothillinga Finance',
+      loanType: 'Portfolio Management',
+      achievement: 'Data Visualization Expert'
     },
     {
       id: 'proj-4',
-      name: 'Neural Network Visualizer',
-      description: 'Interactive tool for visualizing neural network architectures and training processes in real-time.',
-      tags: ['frontend', 'ai', 'python', 'react'],
-      image: 'https://images.pexels.com/photos/8386434/pexels-photo-8386434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      // demoUrl: 'https://example.com/nn-viz',
-      // repoUrl: 'https://github.com/example/nn-viz',
+      name: 'EMI Diminishing Calculator Engine',
+      description: 'Advanced mathematical engine for EMI calculations using diminishing method across multiple loan types. Handles complex interest calculations, payment schedules, and provides detailed amortization tables.',
+      tags: ['finance', 'algorithms', 'mathematics', 'calculation-engine'],
+      image: 'https://images.pexels.com/photos/6693655/pexels-photo-6693655.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
       featured: false,
-      encrypted: false
+      encrypted: false,
+      difficulty: 5,
+      experience: 800,
+      achievement: 'Mathematical Genius'
     },
+    {
+      id: 'proj-5',
+      name: 'Multi-Finance API Gateway',
+      description: 'Unified API gateway connecting multiple finance companies (Vetrivikas, Jothiinga, Jothillinga) with standardized loan processing, EMI calculations, and secure data exchange protocols.',
+      tags: ['api-gateway', 'microservices', 'finance', 'integration'],
+      image: 'https://images.pexels.com/photos/8439093/pexels-photo-8439093.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      featured: false,
+      encrypted: true,
+      difficulty: 5,
+      experience: 1100,
+      achievement: 'Integration Specialist'
+    },
+    {
+      id: 'proj-6',
+      name: 'JLG Loan Management System',
+      description: 'Specialized system for Joint Liability Group loans with group member management, collective responsibility tracking, and automated EMI collection using diminishing method calculations.',
+      tags: ['finance', 'jlg-loans', 'group-management', 'fullstack'],
+      image: 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      featured: false,
+      encrypted: false,
+      difficulty: 4,
+      experience: 750,
+      loanType: 'JLG Loans',
+      achievement: 'Group Loan Expert'
+    },
+    {
+      id: 'proj-7',
+      name: 'Business Loan Origination Platform',
+      description: 'End-to-end business loan origination system with automated underwriting, risk assessment, EMI calculation using diminishing method, and integrated approval workflows.',
+      tags: ['finance', 'business-loans', 'workflow', 'automation'],
+      image: 'https://images.pexels.com/photos/6694538/pexels-photo-6694538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      featured: false,
+      encrypted: true,
+      difficulty: 5,
+      experience: 950,
+      loanType: 'Business Loans',
+      achievement: 'Business Finance Pro'
+    },
+    {
+      id: 'proj-8',
+      name: 'Real-time Payment Tracking API',
+      description: 'High-performance API for real-time payment tracking across multiple finance companies with automated reconciliation, EMI status updates, and payment gateway integrations.',
+      tags: ['api-development', 'payments', 'real-time', 'finance'],
+      image: 'https://images.pexels.com/photos/6693661/pexels-photo-6693661.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      featured: false,
+      encrypted: false,
+      difficulty: 4,
+      experience: 700,
+      achievement: 'Payment Systems Expert'
+    }
   ];
+
+  // Particle system for visual effects
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const createParticle = () => ({
+      id: Math.random(),
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3
+    });
+
+    const initialParticles = Array.from({ length: 30 }, createParticle);
+    setParticles(initialParticles);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      setParticles(prev => prev.map(particle => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+        
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, 1, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(34, 197, 94, 0.2)';
+        ctx.fill();
+        
+        return particle;
+      }));
+      
+      requestAnimationFrame(animate);
+    };
+    
+    animate();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Simulate loading projects
   useEffect(() => {
     const loadProjects = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1200));
+      await new Promise(resolve => setTimeout(resolve, 1500));
       setProjects(projectsData);
       setLoading(false);
+      
+      // Calculate initial stats
+      const totalExp = projectsData.reduce((sum, project) => sum + project.experience, 0);
+      const level = Math.floor(totalExp / 1000) + 1;
+      const financeProjects = projectsData.filter(p => p.tags.includes('finance')).length;
+      
+      setPlayerStats({
+        totalExperience: totalExp,
+        level,
+        unlockedProjects: projectsData.filter(p => !p.encrypted).length,
+        financeExpertise: financeProjects
+      });
     };
     
     loadProjects();
-    
-    // Check if any projects should be decrypted from terminal commands
-    const terminalDecrypt = window.localStorage.getItem('terminal-decrypt');
-    if (terminalDecrypt && terminalDecrypt.startsWith('project ')) {
-      const projectName = terminalDecrypt.replace('project ', '');
-      handleDecrypt(projectName);
-      window.localStorage.removeItem('terminal-decrypt');
-    }
   }, []);
 
-  // Handle project decryption
+  // Handle project decryption with gamification
   const handleDecrypt = (projectId: string) => {
     if (!decryptedProjects.includes(projectId)) {
       setDecryptedProjects(prev => [...prev, projectId]);
       
-      // Auto re-encrypt after 30 seconds
+      const project = projects.find(p => p.id === projectId);
+      if (project?.achievement) {
+        setShowAchievement(project.achievement);
+        setTimeout(() => setShowAchievement(''), 3000);
+      }
+      
+      setPlayerStats(prev => ({
+        ...prev,
+        unlockedProjects: prev.unlockedProjects + 1,
+        totalExperience: prev.totalExperience + (project?.experience || 0)
+      }));
+      
+      // Auto re-encrypt after 45 seconds
       setTimeout(() => {
         setDecryptedProjects(prev => prev.filter(id => id !== projectId));
-      }, 30000);
+      }, 45000);
     }
   };
 
@@ -109,212 +253,317 @@ const ProjectsPage: React.FC = () => {
     return decryptedProjects.includes(project.id);
   };
 
+  const getDifficultyStars = (difficulty: number) => {
+    return '⭐'.repeat(difficulty);
+  };
+
+  const getFilterIcon = (filter: string) => {
+    const icons: { [key: string]: React.ReactNode } = {
+      'all': <Globe size={16} />,
+      'finance': <DollarSign size={16} />,
+      'api-development': <Server size={16} />,
+      'fullstack': <Code size={16} />,
+      'business-loans': <Building size={16} />,
+      'jlg-loans': <Users size={16} />,
+      'emi-calculation': <Calculator size={16} />
+    };
+    return icons[filter] || <Code size={16} />;
+  };
+
   return (
-    <div className="p-6 max-w-5xl mx-auto text-green-300">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">
-          <span className="text-white">/</span>projects
-        </h1>
-        <p className="text-gray-400">Cloning repositories... Accessing project database</p>
-      </div>
-
-      {/* Project filters */}
-      <div className="bg-black bg-opacity-50 p-4 rounded-lg mb-8 overflow-x-auto">
-        <div className="flex space-x-4 min-w-max">
-          <button 
-            onClick={() => setActiveFilter('all')}
-            className={`px-3 py-1 rounded ${activeFilter === 'all' ? 'bg-green-700 text-white' : 'border border-green-500 hover:bg-green-900 hover:bg-opacity-20'}`}
-          >
-            All Projects
-          </button>
-          <button 
-            onClick={() => setActiveFilter('frontend')}
-            className={`px-3 py-1 rounded ${activeFilter === 'frontend' ? 'bg-green-700 text-white' : 'border border-green-500 hover:bg-green-900 hover:bg-opacity-20'}`}
-          >
-            Frontend
-          </button>
-          <button 
-            onClick={() => setActiveFilter('backend')}
-            className={`px-3 py-1 rounded ${activeFilter === 'backend' ? 'bg-green-700 text-white' : 'border border-green-500 hover:bg-green-900 hover:bg-opacity-20'}`}
-          >
-            Backend
-          </button>
-          <button 
-            onClick={() => setActiveFilter('fullstack')}
-            className={`px-3 py-1 rounded ${activeFilter === 'fullstack' ? 'bg-green-700 text-white' : 'border border-green-500 hover:bg-green-900 hover:bg-opacity-20'}`}
-          >
-            Full Stack
-          </button>
-          <button 
-            onClick={() => setActiveFilter('security')}
-            className={`px-3 py-1 rounded ${activeFilter === 'security' ? 'bg-green-700 text-white' : 'border border-green-500 hover:bg-green-900 hover:bg-opacity-20'}`}
-          >
-            Security
-          </button>
-          <button 
-            onClick={() => setActiveFilter('ai')}
-            className={`px-3 py-1 rounded ${activeFilter === 'ai' ? 'bg-green-700 text-white' : 'border border-green-500 hover:bg-green-900 hover:bg-opacity-20'}`}
-          >
-            AI/ML
-          </button>
-        </div>
-      </div>
-
-      {/* Project grid */}
-      {loading ? (
-        <div className="bg-black bg-opacity-30 p-8 rounded-lg border border-green-500 shadow-lg text-center">
-          <div className="loading-spinner"></div>
-          <p>Fetching project repositories...</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredProjects.map((project) => (
-            <div 
-              key={project.id}
-              className="bg-black bg-opacity-30 rounded-lg border border-green-500 shadow-lg overflow-hidden relative"
-            >
-              {/* Project image with overlay */}
-              <div className="h-48 relative overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.name} 
-                  className="w-full h-full object-cover filter brightness-50"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                
-                {/* Featured badge */}
-                {project.featured && (
-                  <div className="absolute top-2 right-2 bg-green-500 text-black px-2 py-1 text-xs font-bold rounded">
-                    FEATURED
-                  </div>
-                )}
-                
-                {/* Encryption overlay */}
-                {project.encrypted && !isDecrypted(project) && (
-                  <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center">
-                    <Shield size={32} className="mb-2" />
-                    <p className="text-center mb-2">ENCRYPTED PROJECT</p>
-                    <button 
-                      onClick={() => handleDecrypt(project.id)}
-                      className="px-3 py-1 bg-green-900 bg-opacity-50 border border-green-500 rounded hover:bg-green-700"
-                    >
-                      Decrypt Data
-                    </button>
-                  </div>
-                )}
-              </div>
-              
-              {/* Project details */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 flex items-center">
-                  <Code size={18} className="mr-2" />
-                  {project.name}
-                </h3>
-                
-                <p className="text-gray-300 text-sm mb-4">
-                  {isDecrypted(project) ? project.description : '████████ ███████ ████ ████████ ███████ ███ ███████ ████████ ████ ████ ███████.'}
-                </p>
-                
-                {/* Project tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map(tag => (
-                    <span 
-                      key={`${project.id}-${tag}`}
-                      className="px-2 py-1 bg-black bg-opacity-50 text-green-400 text-xs rounded"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-                
-                {/* Project links */}
-                {isDecrypted(project) && (
-                  <div className="flex space-x-3 mt-4">
-                    {project.demoUrl && (
-                      <a 
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center px-3 py-1 bg-green-900 bg-opacity-30 rounded hover:bg-green-800 transition-colors"
-                      >
-                        <ExternalLink size={14} className="mr-1" />
-                        Demo
-                      </a>
-                    )}
-                    {project.repoUrl && (
-                      <a 
-                        href={project.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center px-3 py-1 bg-black bg-opacity-50 rounded hover:bg-gray-800 transition-colors"
-                      >
-                        <Github size={14} className="mr-1" />
-                        Code
-                      </a>
-                    )}
-                  </div>
-                )}
-              </div>
+    <div className="relative min-h-screen bg-black overflow-hidden">
+      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
+      
+      {/* Achievement Notification */}
+      {showAchievement && (
+        <div className="fixed top-4 right-4 z-50 bg-yellow-500 text-black px-6 py-3 rounded-lg shadow-lg transform animate-bounce">
+          <div className="flex items-center space-x-2">
+            <span className="text-2xl">🏆</span>
+            <div>
+              <div className="font-bold">Achievement Unlocked!</div>
+              <div className="text-sm">{showAchievement}</div>
             </div>
-          ))}
+          </div>
         </div>
       )}
 
-      {/* Project stats */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-black bg-opacity-30 p-4 rounded-lg border border-green-500 flex items-center">
-          <div className="w-10 h-10 rounded-full bg-green-900 bg-opacity-30 flex items-center justify-center mr-3">
-            <Code size={20} />
-          </div>
+      <div className="relative z-10 p-6 max-w-7xl mx-auto text-green-300">
+        {/* Header with Player Stats */}
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <div className="text-2xl font-bold">{projects.length}</div>
-            <div className="text-xs text-gray-400">Total Projects</div>
+            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              💼 FINANCE PROJECTS VAULT
+            </h1>
+            <p className="text-gray-400">Accessing secure project repositories... Finance expertise unlocked</p>
+          </div>
+          
+          <div className="flex space-x-4">
+            <div className="bg-gray-900 bg-opacity-80 px-4 py-2 rounded-lg border border-green-500">
+              <div className="text-green-400 font-bold">Level {playerStats.level}</div>
+              <div className="text-xs text-gray-400">Finance Expert</div>
+            </div>
+            <div className="bg-gray-900 bg-opacity-80 px-4 py-2 rounded-lg border border-blue-500">
+              <div className="text-blue-400 font-bold">{playerStats.totalExperience.toLocaleString()} XP</div>
+              <div className="text-xs text-gray-400">Total Experience</div>
+            </div>
+            <div className="bg-gray-900 bg-opacity-80 px-4 py-2 rounded-lg border border-purple-500">
+              <div className="text-purple-400 font-bold">{playerStats.unlockedProjects}/{projects.length}</div>
+              <div className="text-xs text-gray-400">Unlocked</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Project Filters */}
+        <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg mb-8 border border-cyan-500">
+          <h3 className="text-cyan-400 font-bold mb-4">🎯 PROJECT CATEGORIES</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
+            {[
+              { key: 'all', label: 'All Projects', count: projects.length },
+              { key: 'finance', label: 'Finance', count: projects.filter(p => p.tags.includes('finance')).length },
+              { key: 'api-development', label: 'API Dev', count: projects.filter(p => p.tags.includes('api-development')).length },
+              { key: 'fullstack', label: 'Full Stack', count: projects.filter(p => p.tags.includes('fullstack')).length },
+              { key: 'business-loans', label: 'Business Loans', count: projects.filter(p => p.tags.includes('business-loans')).length },
+              { key: 'jlg-loans', label: 'JLG Loans', count: projects.filter(p => p.tags.includes('jlg-loans')).length },
+              { key: 'emi-calculation', label: 'EMI Calc', count: projects.filter(p => p.tags.includes('emi-calculation')).length }
+            ].map(filter => (
+              <button
+                key={filter.key}
+                onClick={() => setActiveFilter(filter.key)}
+                className={`p-3 rounded-lg transition-all duration-300 ${
+                  activeFilter === filter.key
+                    ? 'bg-green-600 text-white shadow-lg transform scale-105'
+                    : 'bg-gray-800 border border-gray-600 hover:border-green-400 hover:bg-gray-700'
+                }`}
+              >
+                <div className="flex items-center justify-center mb-1">
+                  {getFilterIcon(filter.key)}
+                </div>
+                <div className="text-xs font-bold">{filter.label}</div>
+                <div className="text-xs text-gray-400">({filter.count})</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Project Grid */}
+        {loading ? (
+          <div className="bg-gray-900 bg-opacity-80 p-8 rounded-lg border border-green-500 shadow-lg text-center">
+            <div className="text-6xl mb-4 animate-spin">⚡</div>
+            <p className="text-xl">Accessing secure finance repositories...</p>
+            <div className="mt-4 text-sm text-gray-400">
+              <p>🔐 Decrypting loan management systems...</p>
+              <p>💰 Loading EMI calculation engines...</p>
+              <p>🏦 Connecting to finance company databases...</p>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className={`bg-gray-900 bg-opacity-90 rounded-lg border-2 shadow-lg overflow-hidden relative transition-all duration-300 hover:transform hover:scale-105 ${
+                  project.featured ? 'border-yellow-400 shadow-yellow-400/30' : 'border-green-500'
+                }`}
+              >
+                {/* Project Image */}
+                <div className="h-48 relative overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.name}
+                    className="w-full h-full object-cover filter brightness-50"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
+                  
+                  {/* Badges */}
+                  <div className="absolute top-2 left-2 flex flex-col space-y-1">
+                    {project.featured && (
+                      <div className="bg-yellow-500 text-black px-2 py-1 text-xs font-bold rounded">
+                        ⭐ FEATURED
+                      </div>
+                    )}
+                    {project.company && (
+                      <div className="bg-blue-600 text-white px-2 py-1 text-xs font-bold rounded">
+                        {project.company}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="absolute top-2 right-2 flex flex-col space-y-1">
+                    <div className="bg-green-600 text-white px-2 py-1 text-xs font-bold rounded">
+                      +{project.experience} XP
+                    </div>
+                    <div className="bg-purple-600 text-white px-2 py-1 text-xs font-bold rounded">
+                      {getDifficultyStars(project.difficulty)}
+                    </div>
+                  </div>
+                  
+                  {/* Encryption Overlay */}
+                  {project.encrypted && !isDecrypted(project) && (
+                    <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center">
+                      <Shield size={40} className="mb-3 text-yellow-400" />
+                      <p className="text-center mb-3 font-bold">🔒 CLASSIFIED PROJECT</p>
+                      <button
+                        onClick={() => handleDecrypt(project.id)}
+                        className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-bold transition-colors"
+                      >
+                        🔓 DECRYPT (+{project.experience} XP)
+                      </button>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Project Content */}
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-xl font-bold text-white flex items-center">
+                      <DollarSign size={18} className="mr-2 text-green-400" />
+                      {project.name}
+                    </h3>
+                  </div>
+                  
+                  {project.loanType && (
+                    <div className="mb-2 text-sm text-blue-400 font-semibold">
+                      📊 {project.loanType}
+                    </div>
+                  )}
+                  
+                  <p className="text-gray-300 text-sm mb-4">
+                    {isDecrypted(project) ? project.description : '████████ ███████ ████ ████████ ███████ ███ ███████ ████████ ████ ████ ███████ ███████ ███████ ████████.'}
+                  </p>
+                  
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map(tag => (
+                      <span
+                        key={`${project.id}-${tag}`}
+                        className="px-2 py-1 bg-gray-800 text-green-400 text-xs rounded-full border border-green-600"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  {/* Action Buttons */}
+                  {isDecrypted(project) && (
+                    <div className="flex space-x-2">
+                      {project.demoUrl && (
+                        <button className="flex items-center px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm font-bold transition-colors">
+                          <ExternalLink size={14} className="mr-1" />
+                          Demo
+                        </button>
+                      )}
+                      {project.repoUrl && (
+                        <button className="flex items-center px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm font-bold transition-colors">
+                          <Github size={14} className="mr-1" />
+                          Code
+                        </button>
+                      )}
+                      {project.achievement && (
+                        <div className="flex items-center px-3 py-1 bg-yellow-600 text-black rounded text-sm font-bold">
+                          🏆 {project.achievement}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Enhanced Stats Dashboard */}
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-green-500">
+            <div className="flex items-center">
+              <DollarSign size={24} className="text-green-400 mr-2" />
+              <div>
+                <div className="text-2xl font-bold text-green-400">{projects.filter(p => p.tags.includes('finance')).length}</div>
+                <div className="text-xs text-gray-400">Finance Projects</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-blue-500">
+            <div className="flex items-center">
+              <Server size={24} className="text-blue-400 mr-2" />
+              <div>
+                <div className="text-2xl font-bold text-blue-400">{projects.filter(p => p.tags.includes('api-development')).length}</div>
+                <div className="text-xs text-gray-400">API Projects</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-purple-500">
+            <div className="flex items-center">
+              <Building size={24} className="text-purple-400 mr-2" />
+              <div>
+                <div className="text-2xl font-bold text-purple-400">{projects.filter(p => p.tags.includes('business-loans')).length}</div>
+                <div className="text-xs text-gray-400">Business Loans</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-yellow-500">
+            <div className="flex items-center">
+              <Users size={24} className="text-yellow-400 mr-2" />
+              <div>
+                <div className="text-2xl font-bold text-yellow-400">{projects.filter(p => p.tags.includes('jlg-loans')).length}</div>
+                <div className="text-xs text-gray-400">JLG Loans</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-red-500">
+            <div className="flex items-center">
+              <Calculator size={24} className="text-red-400 mr-2" />
+              <div>
+                <div className="text-2xl font-bold text-red-400">{projects.filter(p => p.tags.includes('emi-calculation')).length}</div>
+                <div className="text-xs text-gray-400">EMI Calculators</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-cyan-500">
+            <div className="flex items-center">
+              <Shield size={24} className="text-cyan-400 mr-2" />
+              <div>
+                <div className="text-2xl font-bold text-cyan-400">{projects.filter(p => p.encrypted).length}</div>
+                <div className="text-xs text-gray-400">Encrypted</div>
+              </div>
+            </div>
           </div>
         </div>
         
-        <div className="bg-black bg-opacity-30 p-4 rounded-lg border border-green-500 flex items-center">
-          <div className="w-10 h-10 rounded-full bg-green-900 bg-opacity-30 flex items-center justify-center mr-3">
-            <Globe size={20} />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">
-              {projects.filter(p => p.tags.includes('frontend')).length}
+        {/* Finance Companies Showcase */}
+        <div className="mt-8 bg-gradient-to-r from-green-900 via-blue-900 to-purple-900 p-6 rounded-lg border-2 border-cyan-400">
+          <h3 className="text-2xl font-bold text-white mb-4 text-center">💼 FINANCE COMPANY EXPERTISE</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-black bg-opacity-50 p-4 rounded-lg text-center">
+              <div className="text-3xl mb-2">🏦</div>
+              <h4 className="font-bold text-green-400">Vetrivikas Finance</h4>
+              <p className="text-sm text-gray-300">Complete loan management system with EMI calculations</p>
             </div>
-            <div className="text-xs text-gray-400">Frontend Projects</div>
+            <div className="bg-black bg-opacity-50 p-4 rounded-lg text-center">
+              <div className="text-3xl mb-2">🔧</div>
+              <h4 className="font-bold text-blue-400">Jothiinga Finance</h4>
+              <p className="text-sm text-gray-300">RESTful API suite for finance operations</p>
+            </div>
+            <div className="bg-black bg-opacity-50 p-4 rounded-lg text-center">
+              <div className="text-3xl mb-2">📊</div>
+              <h4 className="font-bold text-purple-400">Jothillinga Finance</h4>
+              <p className="text-sm text-gray-300">Advanced dashboard and portfolio management</p>
+            </div>
           </div>
         </div>
         
-        <div className="bg-black bg-opacity-30 p-4 rounded-lg border border-green-500 flex items-center">
-          <div className="w-10 h-10 rounded-full bg-green-900 bg-opacity-30 flex items-center justify-center mr-3">
-            <Server size={20} />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">
-              {projects.filter(p => p.tags.includes('backend')).length}
-            </div>
-            <div className="text-xs text-gray-400">Backend Projects</div>
-          </div>
+        {/* Terminal Commands */}
+        <div className="mt-8 p-4 bg-black bg-opacity-70 rounded-lg font-mono text-sm border border-gray-600">
+          <p className="text-green-400 mb-2"># Finance Project Commands</p>
+          <p><span className="text-green-400">$</span> decrypt project [name] <span className="text-gray-500">// Unlock encrypted finance projects</span></p>
+          <p><span className="text-green-400">$</span> calculate --emi --diminishing <span className="text-gray-500">// Access EMI calculation engine</span></p>
+          <p><span className="text-green-400">$</span> api --finance --companies <span className="text-gray-500">// List finance company APIs</span></p>
+          <p><span className="text-green-400">$</span> cd /skills <span className="text-gray-500">// Navigate to skills section</span></p>
         </div>
-        
-        <div className="bg-black bg-opacity-30 p-4 rounded-lg border border-green-500 flex items-center">
-          <div className="w-10 h-10 rounded-full bg-green-900 bg-opacity-30 flex items-center justify-center mr-3">
-            <Shield size={20} />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">
-              {projects.filter(p => p.encrypted).length}
-            </div>
-            <div className="text-xs text-gray-400">Encrypted Projects</div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Terminal command help */}
-      <div className="mt-8 p-4 bg-black bg-opacity-50 rounded-lg font-mono text-sm">
-        <p className="text-gray-400 mb-2"># Project commands</p>
-        <p><span className="text-green-400">$</span> decrypt project [name]</p>
-        <p><span className="text-green-400">$</span> cd /skills</p>
-        <p><span className="text-green-400">$</span> cd /contact</p>
       </div>
     </div>
   );

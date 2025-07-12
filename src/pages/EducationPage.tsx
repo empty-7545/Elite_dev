@@ -154,8 +154,8 @@ const EducationPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Certified Information Systems Security Professional (CISSP)</h3>
-                <p className="text-green-400 mb-1">(ISC)²</p>
-                <p className="text-sm text-gray-400 mb-3">Issued: 2019 • Expires: 2025</p>
+                {/* <p className="text-green-400 mb-1">(ISC)²</p> */}
+                {/* <p className="text-sm text-gray-400 mb-3">Issued: 2019 • Expires: 2025</p> */}
                 <p className="text-gray-300 text-sm">
                   Advanced certification in information security, covering risk management, security architecture, and cryptography.
                 </p>
@@ -170,8 +170,8 @@ const EducationPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">AWS Certified Solutions Architect</h3>
-                <p className="text-green-400 mb-1">Amazon Web Services</p>
-                <p className="text-sm text-gray-400 mb-3">Issued: 2021 • Expires: 2024</p>
+                {/* <p className="text-green-400 mb-1">Amazon Web Services</p> */}
+                {/* <p className="text-sm text-gray-400 mb-3">Issued: 2021 • Expires: 2024</p> */}
                 <p className="text-gray-300 text-sm">
                   Professional level certification for designing distributed applications and systems on AWS.
                 </p>
@@ -186,8 +186,8 @@ const EducationPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Full Stack Developer Certification</h3>
-                <p className="text-green-400 mb-1">Tech Institute</p>
-                <p className="text-sm text-gray-400 mb-3">Issued: 2018</p>
+                {/* <p className="text-green-400 mb-1">Tech Institute</p> */}
+                {/* <p className="text-sm text-gray-400 mb-3">Issued: 2018</p> */}
                 <p className="text-gray-300 text-sm">
                   Comprehensive training in modern web development technologies including React, Node.js, and cloud services.
                 </p>
@@ -202,8 +202,8 @@ const EducationPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">TensorFlow Developer Certificate</h3>
-                <p className="text-green-400 mb-1">Google</p>
-                <p className="text-sm text-gray-400 mb-3">Issued: 2022</p>
+                {/* <p className="text-green-400 mb-1">Google</p> */}
+                {/* <p className="text-sm text-gray-400 mb-3">Issued: 2022</p> */}
                 <p className="text-gray-300 text-sm">
                   Certification in building machine learning models using TensorFlow, focusing on neural networks and deep learning.
                 </p>

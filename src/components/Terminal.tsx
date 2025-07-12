@@ -63,7 +63,7 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
         output: `🚀 Navigator v3.0
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✨ Welcome to the Interactive Portfolio Terminal!
+✨ Welcome to the Elite Dev Terminal!
 📅 System initialized: ${new Date().toLocaleString()}
 
 🎯 Available Commands:
