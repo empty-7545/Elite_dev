@@ -155,7 +155,7 @@ const HomePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-green-400 flex items-center justify-center relative overflow-hidden">
+      <div className="min-h-screen  text-green-400 flex items-center justify-center relative overflow-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 opacity-30" />
         <div className="text-center z-10 max-w-2xl mx-auto p-6">
           <div className="text-6xl mb-6 animate-pulse">⚡</div>
@@ -216,7 +216,7 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-green-400 relative overflow-hidden">
+    <div className="min-h-screen  text-green-400 relative overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 opacity-20" />
       
       {/* Achievement Popup */}
