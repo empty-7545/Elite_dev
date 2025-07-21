@@ -1,8 +1,50 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Shield, Code, User, GraduationCap, Trophy, Star, Zap, Target, Award, Gamepad2, Crown, Sparkles, ChevronRight, Lock, Unlock, Flame, Sword, Magic, Heart } from 'lucide-react';
+import React, { useState, useEffect, useCallback, FC } from 'react';
+import { Shield, Code, User, Trophy, Star, Zap, Target, Award, Gamepad2, Crown, Sparkles, ChevronRight, Lock, Unlock, Flame, Sword, Magic, Heart } from 'lucide-react';
+
+// Define interfaces for data structures
+interface DeveloperData {
+  name: string;
+  title: string;
+  location: string;
+  bio: string;
+  experience: string;
+  specialization: string;
+  level: string;
+  xp: string;
+  health: string;
+  mana: string;
+}
+
+interface Achievement {
+  id: number;
+  name: string;
+  description: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  unlocked: boolean;
+  rarity: string;
+  xpReward: number;
+}
+
+interface Skill {
+  name: string;
+  level: number;
+  category: string;
+  color: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+}
+
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  color: string;
+}
 
 // Encrypted developer information
-const encryptedData = {
+const encryptedData: DeveloperData = {
   name: "███████ ████████",
   title: "█████ ███████ ██████████",
   location: "███████, ██",
@@ -21,7 +63,7 @@ const encryptedData = {
 };
 
 // Decrypted developer information
-const decryptedData = {
+const decryptedData: DeveloperData = {
   name: "Karthigaiselvam T",
   title: "Senior Software Developer",
   location: "Dindigul, Tamil Nadu, India",
@@ -39,7 +81,7 @@ const decryptedData = {
   mana: "85"
 };
 
-const achievements = [
+const achievements: Achievement[] = [
   { id: 1, name: "Code Warrior", description: "Mastered multiple programming languages", icon: Sword, unlocked: true, rarity: "legendary", xpReward: 500 },
   { id: 2, name: "Security Guardian", description: "Implemented secure applications", icon: Shield, unlocked: true, rarity: "epic", xpReward: 350 },
   { id: 3, name: "Full Stack Master", description: "Conquered both frontend and backend", icon: Crown, unlocked: true, rarity: "legendary", xpReward: 600 },
@@ -48,7 +90,7 @@ const achievements = [
   { id: 6, name: "Problem Solver", description: "Solved complex technical challenges", icon: Target, unlocked: true, rarity: "rare", xpReward: 300 }
 ];
 
-const skills = [
+const skills: Skill[] = [
   { name: "JavaScript/TypeScript", level: 95, category: "Programming", color: "from-yellow-400 to-yellow-600", icon: Code },
   { name: "React/Next.js", level: 92, category: "Frontend", color: "from-blue-400 to-blue-600", icon: Zap },
   { name: "Node.js", level: 88, category: "Backend", color: "from-green-400 to-green-600", icon: Flame },
@@ -57,29 +99,38 @@ const skills = [
   { name: "React Native", level: 80, category: "Mobile", color: "from-pink-400 to-pink-600", icon: Sparkles }
 ];
 
-const GameifiedAboutPage = () => {
-  const [isDecrypted, setIsDecrypted] = useState(false);
-  const [isDecrypting, setIsDecrypting] = useState(false);
-  const [data, setData] = useState(encryptedData);
-  const [selectedAchievement, setSelectedAchievement] = useState(null);
-  const [xpAnimation, setXpAnimation] = useState(false);
-  const [healthAnimation, setHealthAnimation] = useState(false);
-  const [manaAnimation, setManaAnimation] = useState(false);
-  const [particles, setParticles] = useState([]);
-  const [currentXP, setCurrentXP] = useState(0);
-  const [showLevelUp, setShowLevelUp] = useState(false);
-  const [hoveredSkill, setHoveredSkill] = useState(null);
-  const [typingIndex, setTypingIndex] = useState(0);
-  const [showTerminalEffect, setShowTerminalEffect] = useState(false);
+const GameifiedAboutPage: FC = () => {
+  const [isDecrypted, setIsDecrypted] = useState<boolean>(false);
+  const [isDecrypting, setIsDecrypting] = useState<boolean>(false);
+  const [data, setData] = useState<DeveloperData>(encryptedData);
+  const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
+  const [xpAnimation, setXpAnimation] = useState<boolean>(false);
+  const [healthAnimation, setHealthAnimation] = useState<boolean>(false);
+  const [manaAnimation, setManaAnimation] = useState<boolean>(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [currentXP, setCurrentXP] = useState<number>(0);
+  const [showLevelUp, setShowLevelUp] = useState<boolean>(false);
+  const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
+  const [typingIndex, setTypingIndex] = useState<number>(0);
+  const [showTerminalEffect, setShowTerminalEffect] = useState<boolean>(false);
+
+  // Handle window object safely for SSR
+  const getWindowDimensions = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      return { width: window.innerWidth, height: window.innerHeight };
+    }
+    return { width: 1200, height: 800 };
+  }, []);
 
   // Particle system for effects
   const createParticles = useCallback((count = 20) => {
-    const newParticles = [];
+    const { width, height } = getWindowDimensions();
+    const newParticles: Particle[] = [];
     for (let i = 0; i < count; i++) {
       newParticles.push({
         id: Math.random(),
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
+        x: Math.random() * width,
+        y: Math.random() * height,
         vx: (Math.random() - 0.5) * 4,
         vy: (Math.random() - 0.5) * 4,
         life: 1,
@@ -88,10 +139,12 @@ const GameifiedAboutPage = () => {
     }
     setParticles(newParticles);
     
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setParticles([]);
     }, 3000);
-  }, []);
+    
+    return () => clearTimeout(timer);
+  }, [getWindowDimensions]);
 
   // Terminal typing effect
   useEffect(() => {
@@ -132,7 +185,7 @@ const GameifiedAboutPage = () => {
     createParticles(30);
     
     // Simulate terminal decryption process
-    setTimeout(() => {
+    const decryptTimer = setTimeout(() => {
       setData(decryptedData);
       setIsDecrypted(true);
       setIsDecrypting(false);
@@ -144,12 +197,12 @@ const GameifiedAboutPage = () => {
       createParticles(50);
       
       // Hide level up notification
-      setTimeout(() => {
+      const levelUpTimer = setTimeout(() => {
         setShowLevelUp(false);
       }, 3000);
       
       // Auto re-encrypt after 30 seconds
-      setTimeout(() => {
+      const reEncryptTimer = setTimeout(() => {
         setData(encryptedData);
         setIsDecrypted(false);
         setXpAnimation(false);
@@ -158,10 +211,17 @@ const GameifiedAboutPage = () => {
         setCurrentXP(0);
         setTypingIndex(0);
       }, 30000);
+
+      return () => {
+        clearTimeout(levelUpTimer);
+        clearTimeout(reEncryptTimer);
+      };
     }, 3000);
+
+    return () => clearTimeout(decryptTimer);
   };
 
-  const getRarityColor = (rarity) => {
+  const getRarityColor = (rarity: string): string => {
     switch(rarity) {
       case 'legendary': return 'from-yellow-400 via-orange-500 to-red-500';
       case 'epic': return 'from-purple-400 via-pink-500 to-purple-600';
@@ -170,7 +230,7 @@ const GameifiedAboutPage = () => {
     }
   };
 
-  const getRarityGlow = (rarity) => {
+  const getRarityGlow = (rarity: string): string => {
     switch(rarity) {
       case 'legendary': return 'shadow-lg shadow-yellow-500/50';
       case 'epic': return 'shadow-lg shadow-purple-500/50';
@@ -179,13 +239,57 @@ const GameifiedAboutPage = () => {
     }
   };
 
+  const renderSkillBar = (skill: Skill, index: number, isHovered: boolean) => {
+    const Icon = skill.icon;
+    const width = isHovered ? skill.level : (isDecrypted ? skill.level : 0);
+    
+    return (
+      <div 
+        key={index} 
+        className="bg-gradient-to-r from-gray-700/50 to-gray-800/50 rounded-2xl p-6 transform transition-all duration-500 hover:scale-105 hover:-rotate-1 border border-gray-600/30 cursor-pointer"
+        onMouseEnter={() => setHoveredSkill(index)}
+        onMouseLeave={() => setHoveredSkill(null)}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center space-x-3">
+            <Icon size={24} className="text-white" />
+            <span className="text-white font-bold text-lg">{skill.name}</span>
+          </div>
+          <span className="text-lg text-gray-300 font-mono">{skill.level}%</span>
+        </div>
+        <div className="w-full bg-gray-600 rounded-full h-4 overflow-hidden relative">
+          <div 
+            className={`bg-gradient-to-r ${skill.color} h-4 rounded-full transition-all duration-2000 relative`}
+            style={{ width: `${width}%` }}
+          >
+            <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
+            <div className="absolute right-0 top-0 h-full w-1 bg-white/80 animate-pulse"></div>
+          </div>
+        </div>
+        <div className="mt-3 flex justify-between">
+          <span className="text-sm text-gray-400">{skill.category}</span>
+          <div className="flex space-x-1">
+            {Array.from({ length: 5 }, (_, i) => (
+              <Star 
+                key={i} 
+                size={12} 
+                className={`${i < Math.floor(skill.level / 20) ? 'text-yellow-400' : 'text-gray-600'} transition-colors duration-500`}
+                fill="currentColor" 
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 p-6 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
       </div>
 
       {/* Particles */}
@@ -235,8 +339,8 @@ const GameifiedAboutPage = () => {
       )}
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header Section with enhanced animations */}
-        <div className="mb-8 flex items-center justify-between">
+        {/* Header Section */}
+        <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center space-x-4">
             <div className="relative">
               <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg transform transition-all duration-500 hover:scale-110 hover:rotate-12">
@@ -247,7 +351,7 @@ const GameifiedAboutPage = () => {
               </div>
             </div>
             <div>
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+              <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
                 Player Profile
               </h1>
               <p className="text-gray-300 text-lg">Developer Stats & Epic Achievements</p>
@@ -284,7 +388,7 @@ const GameifiedAboutPage = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Enhanced Player Card */}
+          {/* Left Column - Player Card */}
           <div className="lg:col-span-1 space-y-6">
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl transform transition-all duration-500 hover:scale-105">
               <div className="text-center mb-6">
@@ -309,7 +413,7 @@ const GameifiedAboutPage = () => {
                   {data.title}
                 </p>
                 
-                {/* Enhanced Stats Bars */}
+                {/* Stats Bars */}
                 <div className="space-y-4 mb-6">
                   {/* Level & XP */}
                   <div className="bg-gradient-to-r from-gray-700/50 to-gray-800/50 rounded-2xl p-5">
@@ -368,7 +472,7 @@ const GameifiedAboutPage = () => {
                 </div>
               </div>
               
-              {/* Enhanced Profile Stats */}
+              {/* Profile Stats */}
               <div className="space-y-4">
                 {[
                   { label: 'Location', value: data.location, icon: Target, color: 'text-green-400' },
@@ -391,7 +495,7 @@ const GameifiedAboutPage = () => {
               </div>
             </div>
 
-            {/* Enhanced Achievements */}
+            {/* Achievements */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
                 <Trophy size={24} className="mr-3 text-yellow-400 animate-bounce" />
@@ -432,9 +536,9 @@ const GameifiedAboutPage = () => {
             </div>
           </div>
 
-          {/* Right Column - Enhanced Content */}
+          {/* Right Column - Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Enhanced Bio Section */}
+            {/* Bio Section */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl transform transition-all duration-500 hover:scale-105">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
                 <User size={24} className="mr-3 text-purple-400" />
@@ -445,58 +549,20 @@ const GameifiedAboutPage = () => {
               </div>
             </div>
 
-            {/* Enhanced Skills Section */}
+            {/* Skills Section */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl">
               <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
                 <Code size={24} className="mr-3 text-blue-400" />
                 Skill Mastery Tree
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {skills.map((skill, index) => {
-                  const Icon = skill.icon;
-                  return (
-                    <div 
-                      key={index} 
-                      className="bg-gradient-to-r from-gray-700/50 to-gray-800/50 rounded-2xl p-6 transform transition-all duration-500 hover:scale-105 hover:-rotate-1 border border-gray-600/30"
-                      onMouseEnter={() => setHoveredSkill(index)}
-                      onMouseLeave={() => setHoveredSkill(null)}
-                    >
-                      <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center space-x-3">
-                          <Icon size={24} className="text-white" />
-                          <span className="text-white font-bold text-lg">{skill.name}</span>
-                        </div>
-                        <span className="text-lg text-gray-300 font-mono">{skill.level}%</span>
-                      </div>
-                      <div className="w-full bg-gray-600 rounded-full h-4 overflow-hidden relative">
-                        <div 
-                          className={`bg-gradient-to-r ${skill.color} h-4 rounded-full transition-all duration-2000 relative`}
-                          style={{ width: `${hoveredSkill === index ? skill.level : (isDecrypted ? skill.level : 0)}%` }}
-                        >
-                          <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
-                          <div className="absolute right-0 top-0 h-full w-1 bg-white/80 animate-pulse"></div>
-                        </div>
-                      </div>
-                      <div className="mt-3 flex justify-between">
-                        <span className="text-sm text-gray-400">{skill.category}</span>
-                        <div className="flex space-x-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              size={12} 
-                              className={`${i < Math.floor(skill.level / 20) ? 'text-yellow-400' : 'text-gray-600'} transition-colors duration-500`}
-                              fill="currentColor" 
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {skills.map((skill, index) => 
+                  renderSkillBar(skill, index, hoveredSkill === index)
+                )}
               </div>
             </div>
 
-            {/* Enhanced Experience Timeline */}
+            {/* Experience Timeline */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl">
               <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
                 <Award size={24} className="mr-3 text-green-400" />
@@ -638,7 +704,7 @@ const GameifiedAboutPage = () => {
       )}
 
       {/* Custom CSS for additional animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes fade-in {
           from { opacity: 0; }
           to { opacity: 1; }
