@@ -1,5 +1,24 @@
 import React, { useState, useEffect, useCallback, FC } from 'react';
-import { Shield, Code, User, Trophy, Star, Zap, Target, Award, Gamepad2, Crown, Sparkles, ChevronRight, Lock, Unlock, Flame, Sword, Magic, Heart } from 'lucide-react';
+import { 
+  ShieldFill, 
+  CodeSlash, 
+  PersonFill, 
+  AwardFill, 
+  TrophyFill, 
+  StarFill, 
+  LightningFill, 
+  Bullseye, 
+  Joystick, 
+  Crown, 
+  Stars, 
+  ChevronRight, 
+  LockFill, 
+  UnlockFill, 
+  Fire, 
+  Sword, 
+  Magic, 
+  HeartFill 
+} from 'react-bootstrap-icons';
 
 // Define interfaces for data structures
 interface DeveloperData {
@@ -83,20 +102,20 @@ const decryptedData: DeveloperData = {
 
 const achievements: Achievement[] = [
   { id: 1, name: "Code Warrior", description: "Mastered multiple programming languages", icon: Sword, unlocked: true, rarity: "legendary", xpReward: 500 },
-  { id: 2, name: "Security Guardian", description: "Implemented secure applications", icon: Shield, unlocked: true, rarity: "epic", xpReward: 350 },
+  { id: 2, name: "Security Guardian", description: "Implemented secure applications", icon: ShieldFill, unlocked: true, rarity: "epic", xpReward: 350 },
   { id: 3, name: "Full Stack Master", description: "Conquered both frontend and backend", icon: Crown, unlocked: true, rarity: "legendary", xpReward: 600 },
-  { id: 4, name: "Innovation Pioneer", description: "Created groundbreaking solutions", icon: Sparkles, unlocked: true, rarity: "rare", xpReward: 250 },
-  { id: 5, name: "Team Leader", description: "Led successful development teams", icon: Trophy, unlocked: true, rarity: "epic", xpReward: 400 },
-  { id: 6, name: "Problem Solver", description: "Solved complex technical challenges", icon: Target, unlocked: true, rarity: "rare", xpReward: 300 }
+  { id: 4, name: "Innovation Pioneer", description: "Created groundbreaking solutions", icon: Stars, unlocked: true, rarity: "rare", xpReward: 250 },
+  { id: 5, name: "Team Leader", description: "Led successful development teams", icon: TrophyFill, unlocked: true, rarity: "epic", xpReward: 400 },
+  { id: 6, name: "Problem Solver", description: "Solved complex technical challenges", icon: Bullseye, unlocked: true, rarity: "rare", xpReward: 300 }
 ];
 
 const skills: Skill[] = [
-  { name: "JavaScript/TypeScript", level: 95, category: "Programming", color: "from-yellow-400 to-yellow-600", icon: Code },
-  { name: "React/Next.js", level: 92, category: "Frontend", color: "from-blue-400 to-blue-600", icon: Zap },
-  { name: "Node.js", level: 88, category: "Backend", color: "from-green-400 to-green-600", icon: Flame },
+  { name: "JavaScript/TypeScript", level: 95, category: "Programming", color: "from-yellow-400 to-yellow-600", icon: CodeSlash },
+  { name: "React/Next.js", level: 92, category: "Frontend", color: "from-blue-400 to-blue-600", icon: LightningFill },
+  { name: "Node.js", level: 88, category: "Backend", color: "from-green-400 to-green-600", icon: Fire },
   { name: "Python", level: 85, category: "Programming", color: "from-purple-400 to-purple-600", icon: Magic },
-  { name: "Security", level: 90, category: "Specialty", color: "from-red-400 to-red-600", icon: Shield },
-  { name: "React Native", level: 80, category: "Mobile", color: "from-pink-400 to-pink-600", icon: Sparkles }
+  { name: "Security", level: 90, category: "Specialty", color: "from-red-400 to-red-600", icon: ShieldFill },
+  { name: "React Native", level: 80, category: "Mobile", color: "from-pink-400 to-pink-600", icon: Stars }
 ];
 
 const GameifiedAboutPage: FC = () => {
@@ -270,11 +289,10 @@ const GameifiedAboutPage: FC = () => {
           <span className="text-sm text-gray-400">{skill.category}</span>
           <div className="flex space-x-1">
             {Array.from({ length: 5 }, (_, i) => (
-              <Star 
+              <StarFill 
                 key={i} 
                 size={12} 
                 className={`${i < Math.floor(skill.level / 20) ? 'text-yellow-400' : 'text-gray-600'} transition-colors duration-500`}
-                fill="currentColor" 
               />
             ))}
           </div>
@@ -344,7 +362,7 @@ const GameifiedAboutPage: FC = () => {
           <div className="flex items-center space-x-4">
             <div className="relative">
               <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg transform transition-all duration-500 hover:scale-110 hover:rotate-12">
-                <Gamepad2 size={32} className="text-white" />
+                <Joystick size={32} className="text-white" />
               </div>
               <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-green-400 to-green-500 rounded-full flex items-center justify-center animate-pulse">
                 <div className="w-2 h-2 bg-white rounded-full"></div>
@@ -361,7 +379,7 @@ const GameifiedAboutPage: FC = () => {
           <div className="flex items-center space-x-4">
             {isDecrypted ? (
               <div className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 border border-green-400 rounded-xl shadow-lg">
-                <Unlock size={20} className="text-white animate-pulse" />
+                <UnlockFill size={20} className="text-white animate-pulse" />
                 <span className="text-white font-bold">DECRYPTED</span>
               </div>
             ) : (
@@ -377,7 +395,7 @@ const GameifiedAboutPage: FC = () => {
                   </span>
                 ) : (
                   <span className="flex items-center space-x-3">
-                    <Lock size={20} className="group-hover:animate-bounce" />
+                    <LockFill size={20} className="group-hover:animate-bounce" />
                     <span>Decrypt Profile</span>
                     <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -394,14 +412,14 @@ const GameifiedAboutPage: FC = () => {
               <div className="text-center mb-6">
                 <div className="relative mb-6">
                   <div className="w-32 h-32 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 rounded-full mx-auto flex items-center justify-center shadow-2xl transform transition-all duration-500 hover:rotate-12">
-                    <User size={64} className="text-white" />
+                    <PersonFill size={64} className="text-white" />
                   </div>
                   <div className="absolute -top-3 -right-3 w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center animate-bounce">
                     <Crown size={24} className="text-white" />
                   </div>
                   {isDecrypted && (
                     <div className="absolute -bottom-3 -left-3 w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center animate-pulse">
-                      <Zap size={16} className="text-white" />
+                      <LightningFill size={16} className="text-white" />
                     </div>
                   )}
                 </div>
@@ -440,7 +458,7 @@ const GameifiedAboutPage: FC = () => {
                   <div className="bg-gradient-to-r from-gray-700/50 to-gray-800/50 rounded-2xl p-4">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
-                        <Heart size={16} className="text-red-400" />
+                        <HeartFill size={16} className="text-red-400" />
                         <span className="text-gray-300 text-sm">Health</span>
                       </div>
                       <span className="text-red-400 font-bold">{data.health}%</span>
@@ -475,9 +493,9 @@ const GameifiedAboutPage: FC = () => {
               {/* Profile Stats */}
               <div className="space-y-4">
                 {[
-                  { label: 'Location', value: data.location, icon: Target, color: 'text-green-400' },
-                  { label: 'Experience', value: data.experience, icon: Award, color: 'text-purple-400' },
-                  { label: 'Specialization', value: data.specialization, icon: Sparkles, color: 'text-pink-400' }
+                  { label: 'Location', value: data.location, icon: Bullseye, color: 'text-green-400' },
+                  { label: 'Experience', value: data.experience, icon: AwardFill, color: 'text-purple-400' },
+                  { label: 'Specialization', value: data.specialization, icon: Stars, color: 'text-pink-400' }
                 ].map((stat, index) => {
                   const Icon = stat.icon;
                   return (
@@ -498,7 +516,7 @@ const GameifiedAboutPage: FC = () => {
             {/* Achievements */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-                <Trophy size={24} className="mr-3 text-yellow-400 animate-bounce" />
+                <TrophyFill size={24} className="mr-3 text-yellow-400 animate-bounce" />
                 Epic Achievements
               </h3>
               <div className="grid grid-cols-2 gap-4">
@@ -524,7 +542,7 @@ const GameifiedAboutPage: FC = () => {
                       {achievement.unlocked && (
                         <>
                           <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center animate-pulse">
-                            <Star size={12} className="text-white" />
+                            <StarFill size={12} className="text-white" />
                           </div>
                           <div className="absolute inset-0 bg-white/10 rounded-2xl animate-ping"></div>
                         </>
@@ -541,7 +559,7 @@ const GameifiedAboutPage: FC = () => {
             {/* Bio Section */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl transform transition-all duration-500 hover:scale-105">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-                <User size={24} className="mr-3 text-purple-400" />
+                <PersonFill size={24} className="mr-3 text-purple-400" />
                 Player Backstory
               </h3>
               <div className={`text-gray-300 leading-relaxed text-lg ${isDecrypting ? 'animate-pulse' : ''}`}>
@@ -552,7 +570,7 @@ const GameifiedAboutPage: FC = () => {
             {/* Skills Section */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl">
               <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
-                <Code size={24} className="mr-3 text-blue-400" />
+                <CodeSlash size={24} className="mr-3 text-blue-400" />
                 Skill Mastery Tree
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -565,7 +583,7 @@ const GameifiedAboutPage: FC = () => {
             {/* Experience Timeline */}
             <div className="bg-gradient-to-br from-gray-800/90 via-purple-900/30 to-gray-900/90 backdrop-blur-sm rounded-3xl p-8 border border-purple-500/50 shadow-2xl">
               <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
-                <Award size={24} className="mr-3 text-green-400" />
+                <AwardFill size={24} className="mr-3 text-green-400" />
                 Epic Quest Chronicles
               </h3>
               
@@ -585,7 +603,7 @@ const GameifiedAboutPage: FC = () => {
                     title: "Full Stack Developer Quest",
                     company: "Virtual Technology",
                     period: "2024 - 2025",
-                    icon: Code,
+                    icon: CodeSlash,
                     color: "blue",
                     borderColor: "border-blue-500",
                     bgColor: "bg-blue-500",
@@ -595,7 +613,7 @@ const GameifiedAboutPage: FC = () => {
                     title: "Frontend Developer Quest",
                     company: "Virtual Technology",
                     period: "2024",
-                    icon: Sparkles,
+                    icon: Stars,
                     color: "green",
                     borderColor: "border-green-500",
                     bgColor: "bg-green-500",
@@ -630,12 +648,12 @@ const GameifiedAboutPage: FC = () => {
         <div className="mt-12 text-center">
           <div className="inline-flex items-center space-x-6 bg-gradient-to-r from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/50 shadow-2xl">
             <span className="text-gray-300 text-lg font-semibold flex items-center">
-              <Gamepad2 size={20} className="mr-2 text-purple-400" />
+              <Joystick size={20} className="mr-2 text-purple-400" />
               Navigate to:
             </span>
             {[
-              { name: 'Skills Hub', color: 'from-blue-500 to-blue-600', hoverColor: 'hover:from-blue-600 hover:to-blue-700', icon: Code },
-              { name: 'Projects Lab', color: 'from-green-500 to-green-600', hoverColor: 'hover:from-green-600 hover:to-green-700', icon: Target },
+              { name: 'Skills Hub', color: 'from-blue-500 to-blue-600', hoverColor: 'hover:from-blue-600 hover:to-blue-700', icon: CodeSlash },
+              { name: 'Projects Lab', color: 'from-green-500 to-green-600', hoverColor: 'hover:from-green-600 hover:to-green-700', icon: Bullseye },
               { name: 'Home Base', color: 'from-purple-500 to-purple-600', hoverColor: 'hover:from-purple-600 hover:to-purple-700', icon: Crown }
             ].map((nav, index) => {
               const Icon = nav.icon;
@@ -678,14 +696,14 @@ const GameifiedAboutPage: FC = () => {
               
               {/* XP Reward */}
               <div className="flex justify-center items-center space-x-2 mb-6 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl border border-yellow-500/30">
-                <Zap size={20} className="text-yellow-400" />
+                <LightningFill size={20} className="text-yellow-400" />
                 <span className="text-yellow-400 font-bold">+{selectedAchievement.xpReward} XP Reward</span>
               </div>
               
               {/* Star Rating */}
               <div className="flex justify-center space-x-1 mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={24} className="text-yellow-400 animate-pulse" fill="currentColor" style={{ animationDelay: `${i * 200}ms` }} />
+                  <StarFill key={i} size={24} className="text-yellow-400 animate-pulse" style={{ animationDelay: `${i * 200}ms` }} />
                 ))}
               </div>
               
@@ -704,7 +722,7 @@ const GameifiedAboutPage: FC = () => {
       )}
 
       {/* Custom CSS for additional animations */}
-      <style>{`
+      <style >{`
         @keyframes fade-in {
           from { opacity: 0; }
           to { opacity: 1; }
