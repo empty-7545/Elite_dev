@@ -271,7 +271,7 @@ const ProjectsPage: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden">
+    <div className="relative min-h-screen  overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
       
       {/* Achievement Notification */}
