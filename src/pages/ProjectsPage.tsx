@@ -271,52 +271,53 @@ const ProjectsPage: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen  overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
       
-      {/* Achievement Notification */}
+      {/* Achievement Notification - Responsive */}
       {showAchievement && (
-        <div className="fixed top-4 right-4 z-50 bg-yellow-500 text-black px-6 py-3 rounded-lg shadow-lg transform animate-bounce">
+        <div className="fixed top-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-auto z-50 bg-yellow-500 text-black px-4 sm:px-6 py-3 rounded-lg shadow-lg transform animate-bounce">
           <div className="flex items-center space-x-2">
-            <span className="text-2xl">🏆</span>
+            <span className="text-xl sm:text-2xl">🏆</span>
             <div>
-              <div className="font-bold">Achievement Unlocked!</div>
-              <div className="text-sm">{showAchievement}</div>
+              <div className="font-bold text-sm sm:text-base">Achievement Unlocked!</div>
+              <div className="text-xs sm:text-sm">{showAchievement}</div>
             </div>
           </div>
         </div>
       )}
 
-      <div className="relative z-10 p-6 max-w-7xl mx-auto text-green-300">
-        {/* Header with Player Stats */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+      <div className="relative z-10 p-3 sm:p-4 lg:p-6 max-w-7xl mx-auto text-green-300">
+        {/* Header with Player Stats - Responsive */}
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6 lg:mb-8 space-y-4 lg:space-y-0">
+          <div className="text-center lg:text-left">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
               💼 FINANCE PROJECTS VAULT
             </h1>
-            <p className="text-gray-400">Accessing secure project repositories... Finance expertise unlocked</p>
+            <p className="text-gray-400 text-sm sm:text-base">Accessing secure project repositories... Finance expertise unlocked</p>
           </div>
           
-          <div className="flex space-x-4">
-            <div className="bg-gray-900 bg-opacity-80 px-4 py-2 rounded-lg border border-green-500">
-              <div className="text-green-400 font-bold">Level {playerStats.level}</div>
+          {/* Stats Grid - Responsive */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 sm:flex sm:space-x-4">
+            <div className="bg-gray-900 bg-opacity-80 px-2 sm:px-4 py-2 rounded-lg border border-green-500">
+              <div className="text-green-400 font-bold text-sm sm:text-base">Level {playerStats.level}</div>
               <div className="text-xs text-gray-400">Finance Expert</div>
             </div>
-            <div className="bg-gray-900 bg-opacity-80 px-4 py-2 rounded-lg border border-blue-500">
-              <div className="text-blue-400 font-bold">{playerStats.totalExperience.toLocaleString()} XP</div>
-              <div className="text-xs text-gray-400">Total Experience</div>
+            <div className="bg-gray-900 bg-opacity-80 px-2 sm:px-4 py-2 rounded-lg border border-blue-500">
+              <div className="text-blue-400 font-bold text-sm sm:text-base">{playerStats.totalExperience.toLocaleString()} XP</div>
+              <div className="text-xs text-gray-400">Experience</div>
             </div>
-            <div className="bg-gray-900 bg-opacity-80 px-4 py-2 rounded-lg border border-purple-500">
-              <div className="text-purple-400 font-bold">{playerStats.unlockedProjects}/{projects.length}</div>
+            <div className="bg-gray-900 bg-opacity-80 px-2 sm:px-4 py-2 rounded-lg border border-purple-500">
+              <div className="text-purple-400 font-bold text-sm sm:text-base">{playerStats.unlockedProjects}/{projects.length}</div>
               <div className="text-xs text-gray-400">Unlocked</div>
             </div>
           </div>
         </div>
 
-        {/* Enhanced Project Filters */}
-        <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg mb-8 border border-cyan-500">
-          <h3 className="text-cyan-400 font-bold mb-4">🎯 PROJECT CATEGORIES</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
+        {/* Enhanced Project Filters - Responsive */}
+        <div className="bg-gray-900 bg-opacity-80 p-3 sm:p-4 rounded-lg mb-6 lg:mb-8 border border-cyan-500">
+          <h3 className="text-cyan-400 font-bold mb-3 sm:mb-4 text-lg sm:text-xl text-center sm:text-left">🎯 PROJECT CATEGORIES</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
             {[
               { key: 'all', label: 'All Projects', count: projects.length },
               { key: 'finance', label: 'Finance', count: projects.filter(p => p.tags.includes('finance')).length },
@@ -329,7 +330,7 @@ const ProjectsPage: React.FC = () => {
               <button
                 key={filter.key}
                 onClick={() => setActiveFilter(filter.key)}
-                className={`p-3 rounded-lg transition-all duration-300 ${
+                className={`p-2 sm:p-3 rounded-lg transition-all duration-300 ${
                   activeFilter === filter.key
                     ? 'bg-green-600 text-white shadow-lg transform scale-105'
                     : 'bg-gray-800 border border-gray-600 hover:border-green-400 hover:bg-gray-700'
@@ -338,26 +339,26 @@ const ProjectsPage: React.FC = () => {
                 <div className="flex items-center justify-center mb-1">
                   {getFilterIcon(filter.key)}
                 </div>
-                <div className="text-xs font-bold">{filter.label}</div>
-                <div className="text-xs text-gray-400">({filter.count})</div>
+                <div className="text-xs font-bold text-center">{filter.label}</div>
+                <div className="text-xs text-gray-400 text-center">({filter.count})</div>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Project Grid */}
+        {/* Project Grid - Responsive */}
         {loading ? (
-          <div className="bg-gray-900 bg-opacity-80 p-8 rounded-lg border border-green-500 shadow-lg text-center">
-            <div className="text-6xl mb-4 animate-spin">⚡</div>
-            <p className="text-xl">Accessing secure finance repositories...</p>
-            <div className="mt-4 text-sm text-gray-400">
+          <div className="bg-gray-900 bg-opacity-80 p-6 sm:p-8 rounded-lg border border-green-500 shadow-lg text-center">
+            <div className="text-4xl sm:text-6xl mb-4 animate-spin">⚡</div>
+            <p className="text-lg sm:text-xl">Accessing secure finance repositories...</p>
+            <div className="mt-4 text-sm text-gray-400 space-y-1">
               <p>🔐 Decrypting loan management systems...</p>
               <p>💰 Loading EMI calculation engines...</p>
               <p>🏦 Connecting to finance company databases...</p>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
@@ -365,8 +366,8 @@ const ProjectsPage: React.FC = () => {
                   project.featured ? 'border-yellow-400 shadow-yellow-400/30' : 'border-green-500'
                 }`}
               >
-                {/* Project Image */}
-                <div className="h-48 relative overflow-hidden">
+                {/* Project Image - Responsive */}
+                <div className="h-36 sm:h-48 relative overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.name}
@@ -374,7 +375,7 @@ const ProjectsPage: React.FC = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
                   
-                  {/* Badges */}
+                  {/* Badges - Responsive */}
                   <div className="absolute top-2 left-2 flex flex-col space-y-1">
                     {project.featured && (
                       <div className="bg-yellow-500 text-black px-2 py-1 text-xs font-bold rounded">
@@ -382,7 +383,7 @@ const ProjectsPage: React.FC = () => {
                       </div>
                     )}
                     {project.company && (
-                      <div className="bg-blue-600 text-white px-2 py-1 text-xs font-bold rounded">
+                      <div className="bg-blue-600 text-white px-2 py-1 text-xs font-bold rounded max-w-24 sm:max-w-none truncate">
                         {project.company}
                       </div>
                     )}
@@ -399,12 +400,13 @@ const ProjectsPage: React.FC = () => {
                   
                   {/* Encryption Overlay */}
                   {project.encrypted && !isDecrypted(project) && (
-                    <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center">
-                      <Shield size={40} className="mb-3 text-yellow-400" />
-                      <p className="text-center mb-3 font-bold">🔒 CLASSIFIED PROJECT</p>
+                    <div className="absolute inset-0 bg-black bg-opacity-80 flex flex-col items-center justify-center p-4">
+                      <Shield size={32} className="sm:hidden mb-2 text-yellow-400" />
+                      <Shield size={40} className="hidden sm:block mb-3 text-yellow-400" />
+                      <p className="text-center mb-3 font-bold text-sm sm:text-base">🔒 CLASSIFIED PROJECT</p>
                       <button
                         onClick={() => handleDecrypt(project.id)}
-                        className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-bold transition-colors"
+                        className="px-3 py-2 sm:px-4 bg-green-600 hover:bg-green-700 rounded-lg font-bold transition-colors text-sm"
                       >
                         🔓 DECRYPT (+{project.experience} XP)
                       </button>
@@ -412,12 +414,13 @@ const ProjectsPage: React.FC = () => {
                   )}
                 </div>
                 
-                {/* Project Content */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-xl font-bold text-white flex items-center">
-                      <DollarSign size={18} className="mr-2 text-green-400" />
-                      {project.name}
+                {/* Project Content - Responsive */}
+                <div className="p-4 sm:p-6">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-white flex items-center flex-1 min-w-0">
+                      <DollarSign size={16} className="sm:hidden mr-2 text-green-400 flex-shrink-0" />
+                      <DollarSign size={18} className="hidden sm:block mr-2 text-green-400 flex-shrink-0" />
+                      <span className="truncate">{project.name}</span>
                     </h3>
                   </div>
                   
@@ -427,13 +430,13 @@ const ProjectsPage: React.FC = () => {
                     </div>
                   )}
                   
-                  <p className="text-gray-300 text-sm mb-4">
+                  <p className="text-gray-300 text-sm mb-4 line-clamp-3">
                     {isDecrypted(project) ? project.description : '████████ ███████ ████ ████████ ███████ ███ ███████ ████████ ████ ████ ███████ ███████ ███████ ████████.'}
                   </p>
                   
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map(tag => (
+                  {/* Tags - Responsive */}
+                  <div className="flex flex-wrap gap-1 sm:gap-2 mb-4">
+                    {project.tags.slice(0, 4).map(tag => (
                       <span
                         key={`${project.id}-${tag}`}
                         className="px-2 py-1 bg-gray-800 text-green-400 text-xs rounded-full border border-green-600"
@@ -441,11 +444,16 @@ const ProjectsPage: React.FC = () => {
                         #{tag}
                       </span>
                     ))}
+                    {project.tags.length > 4 && (
+                      <span className="px-2 py-1 bg-gray-800 text-gray-400 text-xs rounded-full border border-gray-600">
+                        +{project.tags.length - 4}
+                      </span>
+                    )}
                   </div>
                   
-                  {/* Action Buttons */}
+                  {/* Action Buttons - Responsive */}
                   {isDecrypted(project) && (
-                    <div className="flex space-x-2">
+                    <div className="flex flex-wrap gap-2">
                       {project.demoUrl && (
                         <button className="flex items-center px-3 py-1 bg-green-600 hover:bg-green-700 rounded text-sm font-bold transition-colors">
                           <ExternalLink size={14} className="mr-1" />
@@ -460,7 +468,7 @@ const ProjectsPage: React.FC = () => {
                       )}
                       {project.achievement && (
                         <div className="flex items-center px-3 py-1 bg-yellow-600 text-black rounded text-sm font-bold">
-                          🏆 {project.achievement}
+                          🏆 <span className="hidden sm:inline ml-1">{project.achievement}</span>
                         </div>
                       )}
                     </div>
@@ -471,98 +479,106 @@ const ProjectsPage: React.FC = () => {
           </div>
         )}
 
-        {/* Enhanced Stats Dashboard */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-green-500">
+        {/* Enhanced Stats Dashboard - Responsive */}
+        <div className="mt-6 lg:mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          <div className="bg-gray-900 bg-opacity-80 p-3 sm:p-4 rounded-lg border border-green-500">
             <div className="flex items-center">
-              <DollarSign size={24} className="text-green-400 mr-2" />
+              <DollarSign size={20} className="sm:hidden text-green-400 mr-2" />
+              <DollarSign size={24} className="hidden sm:block text-green-400 mr-2" />
               <div>
-                <div className="text-2xl font-bold text-green-400">{projects.filter(p => p.tags.includes('finance')).length}</div>
+                <div className="text-lg sm:text-2xl font-bold text-green-400">{projects.filter(p => p.tags.includes('finance')).length}</div>
                 <div className="text-xs text-gray-400">Finance Projects</div>
               </div>
             </div>
           </div>
           
-          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-blue-500">
+          <div className="bg-gray-900 bg-opacity-80 p-3 sm:p-4 rounded-lg border border-blue-500">
             <div className="flex items-center">
-              <Server size={24} className="text-blue-400 mr-2" />
+              <Server size={20} className="sm:hidden text-blue-400 mr-2" />
+              <Server size={24} className="hidden sm:block text-blue-400 mr-2" />
               <div>
-                <div className="text-2xl font-bold text-blue-400">{projects.filter(p => p.tags.includes('api-development')).length}</div>
+                <div className="text-lg sm:text-2xl font-bold text-blue-400">{projects.filter(p => p.tags.includes('api-development')).length}</div>
                 <div className="text-xs text-gray-400">API Projects</div>
               </div>
             </div>
           </div>
           
-          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-purple-500">
+          <div className="bg-gray-900 bg-opacity-80 p-3 sm:p-4 rounded-lg border border-purple-500">
             <div className="flex items-center">
-              <Building size={24} className="text-purple-400 mr-2" />
+              <Building size={20} className="sm:hidden text-purple-400 mr-2" />
+              <Building size={24} className="hidden sm:block text-purple-400 mr-2" />
               <div>
-                <div className="text-2xl font-bold text-purple-400">{projects.filter(p => p.tags.includes('business-loans')).length}</div>
+                <div className="text-lg sm:text-2xl font-bold text-purple-400">{projects.filter(p => p.tags.includes('business-loans')).length}</div>
                 <div className="text-xs text-gray-400">Business Loans</div>
               </div>
             </div>
           </div>
           
-          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-yellow-500">
+          <div className="bg-gray-900 bg-opacity-80 p-3 sm:p-4 rounded-lg border border-yellow-500">
             <div className="flex items-center">
-              <Users size={24} className="text-yellow-400 mr-2" />
+              <Users size={20} className="sm:hidden text-yellow-400 mr-2" />
+              <Users size={24} className="hidden sm:block text-yellow-400 mr-2" />
               <div>
-                <div className="text-2xl font-bold text-yellow-400">{projects.filter(p => p.tags.includes('jlg-loans')).length}</div>
+                <div className="text-lg sm:text-2xl font-bold text-yellow-400">{projects.filter(p => p.tags.includes('jlg-loans')).length}</div>
                 <div className="text-xs text-gray-400">JLG Loans</div>
               </div>
             </div>
           </div>
           
-          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-red-500">
+          <div className="bg-gray-900 bg-opacity-80 p-3 sm:p-4 rounded-lg border border-red-500">
             <div className="flex items-center">
-              <Calculator size={24} className="text-red-400 mr-2" />
+              <Calculator size={20} className="sm:hidden text-red-400 mr-2" />
+              <Calculator size={24} className="hidden sm:block text-red-400 mr-2" />
               <div>
-                <div className="text-2xl font-bold text-red-400">{projects.filter(p => p.tags.includes('emi-calculation')).length}</div>
+                <div className="text-lg sm:text-2xl font-bold text-red-400">{projects.filter(p => p.tags.includes('emi-calculation')).length}</div>
                 <div className="text-xs text-gray-400">EMI Calculators</div>
               </div>
             </div>
           </div>
           
-          <div className="bg-gray-900 bg-opacity-80 p-4 rounded-lg border border-cyan-500">
+          <div className="bg-gray-900 bg-opacity-80 p-3 sm:p-4 rounded-lg border border-cyan-500">
             <div className="flex items-center">
-              <Shield size={24} className="text-cyan-400 mr-2" />
+              <Shield size={20} className="sm:hidden text-cyan-400 mr-2" />
+              <Shield size={24} className="hidden sm:block text-cyan-400 mr-2" />
               <div>
-                <div className="text-2xl font-bold text-cyan-400">{projects.filter(p => p.encrypted).length}</div>
+                <div className="text-lg sm:text-2xl font-bold text-cyan-400">{projects.filter(p => p.encrypted).length}</div>
                 <div className="text-xs text-gray-400">Encrypted</div>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Finance Companies Showcase */}
-        <div className="mt-8 bg-gradient-to-r from-green-900 via-blue-900 to-purple-900 p-6 rounded-lg border-2 border-cyan-400">
-          <h3 className="text-2xl font-bold text-white mb-4 text-center">💼 FINANCE COMPANY EXPERTISE</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Finance Companies Showcase - Responsive */}
+        <div className="mt-6 lg:mt-8 bg-gradient-to-r from-green-900 via-blue-900 to-purple-900 p-4 sm:p-6 rounded-lg border-2 border-cyan-400">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 text-center">💼 FINANCE COMPANY EXPERTISE</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="bg-black bg-opacity-50 p-4 rounded-lg text-center">
-              <div className="text-3xl mb-2">🏦</div>
-              <h4 className="font-bold text-green-400">Vetrivikas Finance</h4>
-              <p className="text-sm text-gray-300">Complete loan management system with EMI calculations</p>
+              <div className="text-2xl sm:text-3xl mb-2">🏦</div>
+              <h4 className="font-bold text-green-400 text-sm sm:text-base">Vetrivikas Finance</h4>
+              <p className="text-xs sm:text-sm text-gray-300 mt-1">Complete loan management system with EMI calculations</p>
             </div>
             <div className="bg-black bg-opacity-50 p-4 rounded-lg text-center">
-              <div className="text-3xl mb-2">🔧</div>
-              <h4 className="font-bold text-blue-400">Jothiinga Finance</h4>
-              <p className="text-sm text-gray-300">RESTful API suite for finance operations</p>
+              <div className="text-2xl sm:text-3xl mb-2">🔧</div>
+              <h4 className="font-bold text-blue-400 text-sm sm:text-base">Jothiinga Finance</h4>
+              <p className="text-xs sm:text-sm text-gray-300 mt-1">RESTful API suite for finance operations</p>
             </div>
-            <div className="bg-black bg-opacity-50 p-4 rounded-lg text-center">
-              <div className="text-3xl mb-2">📊</div>
-              <h4 className="font-bold text-purple-400">Jothillinga Finance</h4>
-              <p className="text-sm text-gray-300">Advanced dashboard and portfolio management</p>
+            <div className="bg-black bg-opacity-50 p-4 rounded-lg text-center sm:col-span-2 lg:col-span-1">
+              <div className="text-2xl sm:text-3xl mb-2">📊</div>
+              <h4 className="font-bold text-purple-400 text-sm sm:text-base">Jothillinga Finance</h4>
+              <p className="text-xs sm:text-sm text-gray-300 mt-1">Advanced dashboard and portfolio management</p>
             </div>
           </div>
         </div>
         
-        {/* Terminal Commands */}
-        <div className="mt-8 p-4 bg-black bg-opacity-70 rounded-lg font-mono text-sm border border-gray-600">
+        {/* Terminal Commands - Responsive */}
+        <div className="mt-6 lg:mt-8 p-3 sm:p-4 bg-black bg-opacity-70 rounded-lg font-mono text-xs sm:text-sm border border-gray-600 overflow-x-auto">
           <p className="text-green-400 mb-2"># Finance Project Commands</p>
-          <p><span className="text-green-400">$</span> decrypt project [name] <span className="text-gray-500">// Unlock encrypted finance projects</span></p>
-          <p><span className="text-green-400">$</span> calculate --emi --diminishing <span className="text-gray-500">// Access EMI calculation engine</span></p>
-          <p><span className="text-green-400">$</span> api --finance --companies <span className="text-gray-500">// List finance company APIs</span></p>
-          <p><span className="text-green-400">$</span> cd /skills <span className="text-gray-500">// Navigate to skills section</span></p>
+          <div className="space-y-1">
+            <p><span className="text-green-400">$</span> decrypt project [name] <span className="text-gray-500">// Unlock encrypted finance projects</span></p>
+            <p><span className="text-green-400">$</span> calculate --emi --diminishing <span className="text-gray-500">// Access EMI calculation engine</span></p>
+            <p><span className="text-green-400">$</span> api --finance --companies <span className="text-gray-500">// List finance company APIs</span></p>
+            <p><span className="text-green-400">$</span> cd /skills <span className="text-gray-500">// Navigate to skills section</span></p>
+          </div>
         </div>
       </div>
     </div>

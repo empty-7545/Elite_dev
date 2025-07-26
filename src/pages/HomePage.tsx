@@ -315,7 +315,9 @@ const HomePage: React.FC = () => {
           {[
             { id: 'about', title: 'About Sector', icon: '🧙‍♂️', desc: 'Discover the origin story', color: 'green' },
             { id: 'skills', title: 'Skills Matrix', icon: '⚔️', desc: 'Unlock technical abilities', color: 'blue' },
-            { id: 'projects', title: 'Battle Archives', icon: '🏆', desc: 'View conquered challenges', color: 'purple' }
+            { id: 'projects', title: 'Battle Archives', icon: '🏆', desc: 'View conquered challenges', color: 'purple' },
+            { id: 'contact', title: 'Contact Guild', icon: '📬', desc: 'Send a raven or message scroll', color: 'orange' },
+            { id: 'education', title: 'Training Grounds', icon: '🎓', desc: 'Explore knowledge quests', color: 'teal' }            
           ].map(card => (
             <div
               key={card.id}
