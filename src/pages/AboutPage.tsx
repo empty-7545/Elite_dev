@@ -265,7 +265,7 @@ const GameifiedAboutPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 p-2 sm:p-4 lg:p-6 relative overflow-hidden">
+    <div className="min-h-screen  from-gray-900 via-purple-900 to-indigo-900 p-2 sm:p-4 lg:p-6 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>

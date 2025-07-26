@@ -228,7 +228,7 @@ const EducationPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 p-3 sm:p-6">
+    <div className="min-h-screen  from-gray-900 via-black to-gray-800 p-3 sm:p-6">
       <div className="max-w-6xl mx-auto">
         
         {/* Header with Player Stats */}
@@ -510,12 +510,12 @@ const EducationPage: React.FC = () => {
             "Knowledge is power, but applied knowledge is unstoppable."
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 px-4">
-            <button 
+            {/* <button 
               onClick={handleNavigateToSkills}
               className="px-6 py-3 bg-gradient-to-r from-green-500 to-yellow-500 text-black font-semibold rounded-lg hover:from-green-400 hover:to-yellow-400 transition-all flex items-center justify-center text-sm sm:text-base"
             >
               View Skills <ChevronRight className="w-4 h-4 ml-2" />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
