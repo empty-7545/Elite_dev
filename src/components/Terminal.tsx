@@ -37,12 +37,13 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
   const [isResizing, setIsResizing] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   
   const terminalRef = useRef<HTMLDivElement>(null);
   const terminalBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Check if mobile device
+  // Check if mobile device and handle mobile keyboard
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -51,8 +52,33 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
+    // Handle mobile keyboard visibility
+    if (isMobile) {
+      const handleResize = () => {
+        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        const windowHeight = window.innerHeight;
+        const keyboardHeight = Math.max(0, windowHeight - viewportHeight);
+        setKeyboardHeight(keyboardHeight);
+      };
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleResize);
+      } else {
+        window.addEventListener('resize', handleResize);
+      }
+
+      return () => {
+        window.removeEventListener('resize', checkMobile);
+        if (window.visualViewport) {
+          window.visualViewport.removeEventListener('resize', handleResize);
+        } else {
+          window.removeEventListener('resize', handleResize);
+        }
+      };
+    }
+    
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }, [isMobile]);
 
   // Welcome message with modern styling
   useEffect(() => {
@@ -92,9 +118,20 @@ Ready to explore? Type a command below! 👇`,
   // Auto-scroll to bottom
   useEffect(() => {
     if (terminalBodyRef.current) {
-      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+      const scrollToBottom = () => {
+        terminalBodyRef.current!.scrollTop = terminalBodyRef.current!.scrollHeight;
+      };
+      
+      // Immediate scroll
+      scrollToBottom();
+      
+      // Delayed scroll for mobile keyboard adjustments
+      if (isMobile) {
+        setTimeout(scrollToBottom, 100);
+        setTimeout(scrollToBottom, 300);
+      }
     }
-  }, [history]);
+  }, [history, isMobile, keyboardHeight]);
 
   // Handle dragging (disabled on mobile)
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -193,10 +230,16 @@ Ready to explore? Type a command below! 👇`,
     setInput('');
     setHistoryIndex(-1);
     
-    // Keep focus on input after command execution
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    // Keep focus on input after command execution with mobile-specific handling
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+        // On mobile, ensure the input is visible after keyboard appears
+        if (isMobile) {
+          inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+      }
+    }, isMobile ? 100 : 0);
   };
 
   // Handle keyboard navigation
@@ -273,7 +316,7 @@ Ready to explore? Type a command below! 👇`,
         top: '0px', 
         left: '0px', 
         width: '100vw', 
-        height: '100vh',
+        height: keyboardHeight > 0 ? `${window.innerHeight - keyboardHeight}px` : '100vh',
         position: 'fixed' as const
       }
     : isMaximized 
@@ -298,16 +341,18 @@ Ready to explore? Type a command below! 👇`,
         
         {/* Title Bar */}
         <div 
-          className="drag-handle bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-600 px-4 py-3 flex items-center justify-between cursor-move"
+          className={`drag-handle bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-600 ${
+            isMobile ? 'px-3 py-2' : 'px-4 py-3'
+          } flex items-center justify-between ${isMobile ? 'cursor-default' : 'cursor-move'}`}
           onMouseDown={handleMouseDown}
         >
           <div className="flex items-center space-x-3">
-            <div className="w-4 h-4 bg-green-400 rounded-sm"></div>
-            <span className="text-white font-semibold">Navigator</span>
+            <div className={`bg-green-400 rounded-sm ${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`}></div>
+            <span className={`text-white font-semibold ${isMobile ? 'text-sm' : 'text-base'}`}>Navigator</span>
             <div className="flex space-x-1">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse delay-100"></div>
-              <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse delay-200"></div>
+              <div className={`bg-green-400 rounded-full animate-pulse ${isMobile ? 'w-1.5 h-1.5' : 'w-2 h-2'}`}></div>
+              <div className={`bg-yellow-400 rounded-full animate-pulse delay-100 ${isMobile ? 'w-1.5 h-1.5' : 'w-2 h-2'}`}></div>
+              <div className={`bg-red-400 rounded-full animate-pulse delay-200 ${isMobile ? 'w-1.5 h-1.5' : 'w-2 h-2'}`}></div>
             </div>
           </div>
           
@@ -315,40 +360,56 @@ Ready to explore? Type a command below! 👇`,
           <div className="flex items-center space-x-2">
             <button 
               onClick={handleMinimize}
-              className="p-1.5 hover:bg-gray-700 rounded-md transition-colors group"
+              className={`hover:bg-gray-700 rounded-md transition-colors group ${
+                isMobile ? 'p-2 touch-manipulation' : 'p-1.5'
+              }`}
               title="Minimize"
             >
-              <Minimize2 size={14} className="text-gray-400 group-hover:text-yellow-400" />
+              <Minimize2 size={isMobile ? 16 : 14} className="text-gray-400 group-hover:text-yellow-400" />
             </button>
-            <button 
-              onClick={handleMaximize}
-              className="p-1.5 hover:bg-gray-700 rounded-md transition-colors group"
-              title={isMaximized ? "Restore" : "Maximize"}
-            >
-              <Maximize2 size={14} className="text-gray-400 group-hover:text-green-400" />
-            </button>
+            {!isMobile && (
+              <button 
+                onClick={handleMaximize}
+                className="p-1.5 hover:bg-gray-700 rounded-md transition-colors group"
+                title={isMaximized ? "Restore" : "Maximize"}
+              >
+                <Maximize2 size={14} className="text-gray-400 group-hover:text-green-400" />
+              </button>
+            )}
             <button 
               onClick={handleClose}
-              className="p-1.5 hover:bg-red-600 rounded-md transition-colors group"
+              className={`hover:bg-red-600 rounded-md transition-colors group ${
+                isMobile ? 'p-2 touch-manipulation' : 'p-1.5'
+              }`}
               title="Close"
             >
-              <X size={14} className="text-gray-400 group-hover:text-white" />
+              <X size={isMobile ? 16 : 14} className="text-gray-400 group-hover:text-white" />
             </button>
           </div>
         </div>
         
         {/* Terminal Body */}
         <div 
-          className="flex-1 overflow-auto bg-black/50 backdrop-blur-sm" 
+          className={`flex-1 bg-black/50 backdrop-blur-sm ${
+            isMobile ? 'overflow-y-auto overflow-x-hidden' : 'overflow-auto'
+          }`}
           ref={terminalBodyRef}
-          style={{ height: 'calc(100% - 60px)' }}
+          style={{ 
+            height: isMobile ? 'calc(100% - 48px)' : 'calc(100% - 60px)', // Adjust for mobile title bar
+            WebkitOverflowScrolling: 'touch', // Enable smooth scrolling on iOS
+            overscrollBehavior: 'contain' // Prevent scroll chaining on mobile
+          }}
         >
-          <div className="p-4 space-y-2">
-            {renderHistoryEntries()}
+          <div className={`${isMobile ? 'p-2' : 'p-4'} space-y-2 min-h-full flex flex-col`}>
+            <div className="flex-1">
+              {renderHistoryEntries()}
+            </div>
             
-            {/* Input Line */}
-            <div className="flex items-center space-x-2 mt-4">
-              <span className="text-blue-400 font-mono font-bold text-lg">❯</span>
+            {/* Input Line - Always visible at bottom */}
+            <div className={`flex items-center space-x-2 mt-4 sticky bottom-0 bg-black/80 backdrop-blur-sm ${
+              isMobile ? 'p-2 -m-2' : 'p-0'
+            } rounded-lg`}>
+              <span className={`text-blue-400 font-mono font-bold ${isMobile ? 'text-base' : 'text-lg'}`}>❯</span>
               <input
                 ref={inputRef}
                 type="text"
@@ -360,13 +421,26 @@ Ready to explore? Type a command below! 👇`,
                     handleSubmit(e);
                   }
                 }}
-                className="flex-1 bg-transparent text-white font-mono text-lg outline-none border-none caret-green-400"
+                onFocus={() => {
+                  // Ensure input is visible when focused on mobile
+                  if (isMobile && inputRef.current) {
+                    setTimeout(() => {
+                      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    }, 300); // Wait for keyboard animation
+                  }
+                }}
+                className={`flex-1 bg-transparent text-white font-mono outline-none border-none caret-green-400 ${
+                  isMobile ? 'text-base py-2' : 'text-lg'
+                }`}
                 placeholder="Type a command..."
                 autoFocus
                 spellCheck="false"
                 autoComplete="off"
+                style={{
+                  fontSize: isMobile ? '16px' : '18px', // Prevent zoom on iOS
+                }}
               />
-              <div className="w-3 h-6 bg-green-400 animate-pulse"></div>
+              <div className={`bg-green-400 animate-pulse ${isMobile ? 'w-2 h-5' : 'w-3 h-6'}`}></div>
             </div>
           </div>
         </div>
