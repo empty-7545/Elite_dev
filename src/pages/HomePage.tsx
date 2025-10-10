@@ -305,11 +305,20 @@ const HomePage: React.FC = () => {
         </div>
         
         <div className={`text-center z-10 mx-auto ${isMobile ? 'p-4 max-w-sm' : 'p-6 max-w-2xl'}`}>
-          {/* Skull/Hacker Icon */}
+          {/* Animated Terminal Icon */}
           <div className={`mb-6 ${isMobile ? 'text-4xl' : 'text-6xl'}`}>
             <div className="relative inline-block">
-              <span className="animate-pulse">💀</span>
-              <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+              <div className="relative">
+                {/* Rotating brackets animation */}
+                <div className="flex items-center justify-center gap-1">
+                  <span className="text-green-400 animate-pulse inline-block" style={{ animationDelay: '0s' }}>&lt;</span>
+                  <span className="text-red-500 animate-bounce inline-block" style={{ animationDelay: '0.1s' }}>/</span>
+                  <span className="text-green-400 animate-pulse inline-block" style={{ animationDelay: '0.2s' }}>&gt;</span>
+                </div>
+                {/* Orbiting dots */}
+                <div className="absolute -top-2 -right-2 w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
+                <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-red-500 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+              </div>
             </div>
           </div>
           
@@ -353,27 +362,27 @@ const HomePage: React.FC = () => {
               <div className="space-y-1">
                 <div className={`flex items-center ${hackingPhase >= 0 ? 'text-green-400' : 'text-gray-600'}`}>
                   <span className="mr-2 text-red-500">►</span>
-                  <span>Bypassing security protocols...</span>
+                  <span>Getting your IP address...</span>
                   {hackingPhase >= 0 && <span className="ml-auto text-green-400">[OK]</span>}
                 </div>
                 <div className={`flex items-center ${hackingPhase >= 1 ? 'text-green-400' : 'text-gray-600'}`}>
                   <span className="mr-2 text-red-500">►</span>
-                  <span>Scanning network topology...</span>
+                  <span>Fetching user details...</span>
                   {hackingPhase >= 1 && <span className="ml-auto text-green-400">[OK]</span>}
                 </div>
                 <div className={`flex items-center ${hackingPhase >= 2 ? 'text-green-400' : 'text-gray-600'}`}>
                   <span className="mr-2 text-red-500">►</span>
-                  <span>Breaching firewall defenses...</span>
+                  <span>Analyzing browser fingerprint...</span>
                   {hackingPhase >= 2 && <span className="ml-auto text-green-400">[OK]</span>}
                 </div>
                 <div className={`flex items-center ${hackingPhase >= 3 ? 'text-green-400' : 'text-gray-600'}`}>
                   <span className="mr-2 text-red-500">►</span>
-                  <span>Accessing mainframe database...</span>
+                  <span>Extracting device information...</span>
                   {hackingPhase >= 3 && <span className="ml-auto text-green-400">[OK]</span>}
                 </div>
                 <div className={`flex items-center ${hackingPhase >= 4 ? 'text-green-400' : 'text-gray-600'}`}>
                   <span className="mr-2 text-red-500">►</span>
-                  <span>Downloading elite profile...</span>
+                  <span>Loading portfolio data...</span>
                   {hackingPhase >= 4 && <span className="ml-auto text-green-400">[COMPLETE]</span>}
                 </div>
               </div>

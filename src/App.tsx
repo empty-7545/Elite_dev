@@ -22,29 +22,44 @@ function App() {
     
     // Handle navigation commands
     if (cmd === 'cd') {
-      const path = args[1] || '/';
+      let path = args[1] || '/';
+      
+      // Normalize path - add leading slash if not present (except for special cases)
+      if (path !== '/' && path !== '~' && !path.startsWith('/')) {
+        path = '/' + path;
+      }
+      
+      // Handle home directory shortcuts
+      if (path === '~' || path === '/home') {
+        path = '/';
+      }
       
       switch (path) {
         case '/':
-        case '/home':
           navigate('/');
           return { success: true, output: 'Navigating to home directory...' };
         case '/about':
+        case 'about':
           navigate('/about');
           return { success: true, output: 'Navigating to about section...' };
         case '/skills':
+        case 'skills':
           navigate('/skills');
           return { success: true, output: 'Navigating to skills directory...' };
         case '/projects':
+        case 'projects':
           navigate('/projects');
           return { success: true, output: 'Navigating to projects repository...' };
         case '/education':
+        case 'education':
           navigate('/education');
           return { success: true, output: 'Navigating to education records...' };
         case '/testimonials':
+        case 'testimonials':
           navigate('/testimonials');
           return { success: true, output: 'Navigating to testimonials vault...' };
         case '/contact':
+        case 'contact':
           navigate('/contact');
           return { success: true, output: 'Establishing communication protocol...' };
         default:
@@ -95,7 +110,7 @@ drwxr-xr-x  2 user user  4096 Aug 11 2004 contact
         success: true, 
         output: `
 Available commands:
-  cd [path]            Navigate to a section
+  cd [path]            Navigate to a section (e.g., 'cd about' or 'cd /about')
   ls                   List available sections
   pwd                  Show current location
   whoami               Display user info
@@ -105,6 +120,8 @@ Available commands:
   decrypt [target]     Decrypt content
   matrix               Toggle matrix animation
   history              View command history
+
+Tip: You can use 'cd about' or 'cd /about' - both work!
 ` 
       };
     } 

@@ -30,14 +30,13 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 100, y: 100 });
-  const [size, setSize] = useState({ width: 800, height: 500 });
   const [isMobile, setIsMobile] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
-  const [isResizing, setIsResizing] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   
   const terminalRef = useRef<HTMLDivElement>(null);
   const terminalBodyRef = useRef<HTMLDivElement>(null);
@@ -52,17 +51,21 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
-    // Handle mobile keyboard visibility
+    // Handle mobile keyboard visibility with better performance
     if (isMobile) {
       const handleResize = () => {
-        const viewportHeight = window.visualViewport?.height || window.innerHeight;
-        const windowHeight = window.innerHeight;
-        const keyboardHeight = Math.max(0, windowHeight - viewportHeight);
-        setKeyboardHeight(keyboardHeight);
+        // Use requestAnimationFrame for smoother updates
+        requestAnimationFrame(() => {
+          const viewportHeight = window.visualViewport?.height || window.innerHeight;
+          const windowHeight = window.innerHeight;
+          const keyboardHeight = Math.max(0, windowHeight - viewportHeight);
+          setKeyboardHeight(keyboardHeight);
+        });
       };
 
       if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', handleResize);
+        window.visualViewport.addEventListener('scroll', handleResize);
       } else {
         window.addEventListener('resize', handleResize);
       }
@@ -71,6 +74,7 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
         window.removeEventListener('resize', checkMobile);
         if (window.visualViewport) {
           window.visualViewport.removeEventListener('resize', handleResize);
+          window.visualViewport.removeEventListener('scroll', handleResize);
         } else {
           window.removeEventListener('resize', handleResize);
         }
@@ -92,20 +96,19 @@ const ModernTerminal: React.FC<TerminalProps> = ({ onCommand }) => {
 ✨ Welcome to the Elite Dev Terminal!
 📅 System initialized: ${new Date().toLocaleString()}
 
-🎯 Available Commands:
-  help        - Show all available commands
-  cd <path>   - Navigate to different sections
-  ls          - List current directory contents
-  about       - Learn more about me
-  projects    - View my projects
-  skills      - Check out my skills
-  contact     - Get in touch
+🎯 Quick Start:
+  help           - Show all available commands
+  cd about       - Navigate to about section
+  cd projects    - View my projects
+  cd skills      - Check out my skills
+  cd contact     - Get in touch
+  ls             - List all sections
   
 💡 Pro Tips:
   • Use Tab for auto-completion
   • Use ↑/↓ arrows for command history
-  • Drag this window around!
-  • Resize from the bottom-right corner
+  • Both 'cd about' and 'cd /about' work!
+  • Drag this window around (desktop only)
 
 Ready to explore? Type a command below! 👇`,
       },
@@ -115,23 +118,31 @@ Ready to explore? Type a command below! 👇`,
     setHistory([welcomeMessage]);
   }, []);
 
-  // Auto-scroll to bottom
+  // Auto-scroll to bottom with better performance
   useEffect(() => {
     if (terminalBodyRef.current) {
       const scrollToBottom = () => {
-        terminalBodyRef.current!.scrollTop = terminalBodyRef.current!.scrollHeight;
+        requestAnimationFrame(() => {
+          if (terminalBodyRef.current) {
+            terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+          }
+        });
       };
       
       // Immediate scroll
       scrollToBottom();
       
       // Delayed scroll for mobile keyboard adjustments
-      if (isMobile) {
-        setTimeout(scrollToBottom, 100);
-        setTimeout(scrollToBottom, 300);
+      if (isMobile && isInputFocused) {
+        const timer1 = setTimeout(scrollToBottom, 150);
+        const timer2 = setTimeout(scrollToBottom, 350);
+        return () => {
+          clearTimeout(timer1);
+          clearTimeout(timer2);
+        };
       }
     }
-  }, [history, isMobile, keyboardHeight]);
+  }, [history, isMobile, keyboardHeight, isInputFocused]);
 
   // Handle dragging (disabled on mobile)
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -231,15 +242,17 @@ Ready to explore? Type a command below! 👇`,
     setHistoryIndex(-1);
     
     // Keep focus on input after command execution with mobile-specific handling
-    setTimeout(() => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-        // On mobile, ensure the input is visible after keyboard appears
-        if (isMobile) {
-          inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+          // On mobile, ensure the input is visible after keyboard appears
+          if (isMobile) {
+            inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
         }
-      }
-    }, isMobile ? 100 : 0);
+      }, isMobile ? 50 : 0);
+    });
   };
 
   // Handle keyboard navigation
@@ -316,16 +329,19 @@ Ready to explore? Type a command below! 👇`,
         top: '0px', 
         left: '0px', 
         width: '100vw', 
-        height: keyboardHeight > 0 ? `${window.innerHeight - keyboardHeight}px` : '100vh',
-        position: 'fixed' as const
+        height: keyboardHeight > 0 ? `calc(100vh - ${keyboardHeight}px)` : '100vh',
+        position: 'fixed' as const,
+        transform: 'translateZ(0)', // Enable hardware acceleration
+        willChange: keyboardHeight > 0 ? 'height' : 'auto'
       }
     : isMaximized 
-      ? { top: 0, left: 0, width: '100vw', height: '100vh' }
+      ? { top: 0, left: 0, width: '100vw', height: '100vh', transform: 'translateZ(0)' }
       : { 
           top: `${position.y}px`, 
           left: `${position.x}px`, 
-          width: `${size.width}px`, 
-          height: `${size.height}px` 
+          width: '800px', 
+          height: '500px',
+          transform: 'translateZ(0)'
         };
 
   return (
@@ -337,7 +353,7 @@ Ready to explore? Type a command below! 👇`,
       style={windowStyle}
     >
       {/* Window Container */}
-      <div className="h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black border border-gray-600 rounded-xl shadow-2xl overflow-hidden backdrop-blur-sm">
+      <div className="h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black border border-gray-600 rounded-xl shadow-2xl overflow-hidden backdrop-blur-sm will-change-transform">
         
         {/* Title Bar */}
         <div 
@@ -395,9 +411,11 @@ Ready to explore? Type a command below! 👇`,
           }`}
           ref={terminalBodyRef}
           style={{ 
-            height: isMobile ? 'calc(100% - 48px)' : 'calc(100% - 60px)', // Adjust for mobile title bar
-            WebkitOverflowScrolling: 'touch', // Enable smooth scrolling on iOS
-            overscrollBehavior: 'contain' // Prevent scroll chaining on mobile
+            height: isMobile ? 'calc(100% - 48px)' : 'calc(100% - 60px)',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehavior: 'contain',
+            transform: 'translateZ(0)',
+            willChange: 'scroll-position'
           }}
         >
           <div className={`${isMobile ? 'p-2' : 'p-4'} space-y-2 min-h-full flex flex-col`}>
@@ -406,8 +424,8 @@ Ready to explore? Type a command below! 👇`,
             </div>
             
             {/* Input Line - Always visible at bottom */}
-            <div className={`flex items-center space-x-2 mt-4 sticky bottom-0 bg-black/80 backdrop-blur-sm ${
-              isMobile ? 'p-2 -m-2' : 'p-0'
+            <div className={`flex items-center space-x-2 mt-4 sticky bottom-0 bg-black/90 backdrop-blur-md ${
+              isMobile ? 'p-3 -m-2 border-t border-gray-700' : 'p-0'
             } rounded-lg`}>
               <span className={`text-blue-400 font-mono font-bold ${isMobile ? 'text-base' : 'text-lg'}`}>❯</span>
               <input
@@ -422,12 +440,18 @@ Ready to explore? Type a command below! 👇`,
                   }
                 }}
                 onFocus={() => {
+                  setIsInputFocused(true);
                   // Ensure input is visible when focused on mobile
                   if (isMobile && inputRef.current) {
-                    setTimeout(() => {
-                      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    }, 300); // Wait for keyboard animation
+                    requestAnimationFrame(() => {
+                      setTimeout(() => {
+                        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                      }, 200);
+                    });
                   }
+                }}
+                onBlur={() => {
+                  setIsInputFocused(false);
                 }}
                 className={`flex-1 bg-transparent text-white font-mono outline-none border-none caret-green-400 ${
                   isMobile ? 'text-base py-2' : 'text-lg'
@@ -437,7 +461,9 @@ Ready to explore? Type a command below! 👇`,
                 spellCheck="false"
                 autoComplete="off"
                 style={{
-                  fontSize: isMobile ? '16px' : '18px', // Prevent zoom on iOS
+                  fontSize: isMobile ? '16px' : '18px',
+                  touchAction: 'manipulation',
+                  WebkitTapHighlightColor: 'transparent'
                 }}
               />
               <div className={`bg-green-400 animate-pulse ${isMobile ? 'w-2 h-5' : 'w-3 h-6'}`}></div>
