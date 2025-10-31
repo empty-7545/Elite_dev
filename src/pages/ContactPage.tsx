@@ -146,7 +146,7 @@ const ContactPage: React.FC = () => {
   const missionStatus = getMissionStatus();
 
   return (
-    <div className="min-h-screen  from-gray-900 via-black to-gray-800 p-6">
+    <div className="page-wrapper min-h-screen from-gray-900 via-black to-gray-800 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Mission Header */}
         <div className="mb-8 p-6 bg-gradient-to-r from-green-900/30 to-yellow-900/30 rounded-xl border border-green-500/30 backdrop-blur-sm">

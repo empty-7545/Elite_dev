@@ -149,7 +149,7 @@ const TestimonialsPage: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto text-green-300">
+    <div className="page-wrapper p-6 max-w-5xl mx-auto text-green-300">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-4">
           <span className="text-white">/</span>testimonials

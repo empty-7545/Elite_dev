@@ -271,7 +271,7 @@ const ProjectsPage: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen  from-gray-900 via-gray-800 to-black overflow-hidden">
+    <div className="page-wrapper relative min-h-screen from-gray-900 via-gray-800 to-black">
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
       
       {/* Achievement Notification - Responsive */}

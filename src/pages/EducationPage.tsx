@@ -228,7 +228,7 @@ const EducationPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen  from-gray-900 via-black to-gray-800 p-3 sm:p-6">
+    <div className="page-wrapper min-h-screen from-gray-900 via-black to-gray-800 p-3 sm:p-6">
       <div className="max-w-6xl mx-auto">
         
         {/* Header with Player Stats */}

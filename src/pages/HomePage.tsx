@@ -402,7 +402,7 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen text-green-400 relative overflow-hidden">
+    <div className="page-wrapper min-h-screen text-green-400 relative">
       <canvas ref={canvasRef} className="absolute inset-0 opacity-20" />
       
       {/* Achievement Popup */}
