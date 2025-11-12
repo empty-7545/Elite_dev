@@ -6,7 +6,6 @@ import {
   Code, 
   FolderOpen, 
   GraduationCap, 
-  MessageSquare, 
   Mail 
 } from 'lucide-react';
 
@@ -51,12 +50,6 @@ const BottomNavigation: React.FC = () => {
       label: 'Education',
       icon: <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />,
       path: '/education'
-    },
-    {
-      id: 'testimonials',
-      label: 'Reviews',
-      icon: <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />,
-      path: '/testimonials'
     },
     {
       id: 'contact',

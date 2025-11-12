@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   MapPin, 
   Calendar, 
@@ -36,6 +37,7 @@ interface Interest {
 
 const AboutPage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -114,7 +116,7 @@ const AboutPage: React.FC = () => {
   };
 
   return (
-    <div className="page-wrapper min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 p-3 sm:p-6">
+    <div className="page-wrapper min-h-screen  from-gray-900 via-black to-gray-800 p-3 sm:p-6">
       <div className="max-w-6xl mx-auto">
         
         {/* Hero Section */}
@@ -177,11 +179,17 @@ const AboutPage: React.FC = () => {
 
                 {/* Contact Buttons */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-3">
-                  <button className="flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base">
+                  <button
+                    onClick={() => navigate('/contact')}
+                    className="flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
+                  >
                     <Mail className="w-4 h-4 mr-2" />
                     Contact Me
                   </button>
-                  <button className="flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base border border-gray-600">
+                  <button
+                    onClick={() => navigate('/projects')}
+                    className="flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base border border-gray-600"
+                  >
                     <Github className="w-4 h-4 mr-2" />
                     GitHub
                   </button>
@@ -335,12 +343,18 @@ const AboutPage: React.FC = () => {
               Whether it's a startup idea, open source contribution, or just a chat about tech, I'd love to hear from you!
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 font-semibold">
+              <button
+                onClick={() => navigate('/contact')}
+                className="flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg hover:from-green-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 font-semibold"
+              >
                 <Mail className="w-5 h-5 mr-2" />
                 Get In Touch
                 <ChevronRight className="w-4 h-4 ml-2" />
               </button>
-              <button className="flex items-center justify-center px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 font-semibold border border-gray-600">
+              <button
+                onClick={() => navigate('/projects')}
+                className="flex items-center justify-center px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 font-semibold border border-gray-600"
+              >
                 <Trophy className="w-5 h-5 mr-2" />
                 View My Work
                 <ChevronRight className="w-4 h-4 ml-2" />

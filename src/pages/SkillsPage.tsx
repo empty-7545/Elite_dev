@@ -179,7 +179,7 @@ const SkillsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="page-wrapper min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 text-white relative">
+      <div className="page-wrapper min-h-screen text-white relative">
         <div className="text-center">
           <div className="relative">
             <div className="w-20 h-20 border-4 border-green-400 border-t-transparent rounded-full animate-spin mb-4"></div>
